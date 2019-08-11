@@ -1,0 +1,17 @@
+/.idea/
+/.vs/
+
+*.sln
+*.db
+*.opendb
+
+Intermediate/
+Saved/
+Binaries/
+GameBuild/
+BuildArchive/
+Build/
+
+
+
+
