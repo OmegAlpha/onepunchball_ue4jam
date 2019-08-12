@@ -21,7 +21,13 @@ public:
 	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 	UPROPERTY(Replicated, BlueprintReadWrite)
-	FString Index_HeadMesh = TEXT("0");
+	bool IsAlive;
+
+	UPROPERTY(Replicated, BlueprintReadWrite)
+	bool DidShotThisRound;
+
+	UPROPERTY(Replicated, BlueprintReadWrite)
+	bool QtyDeaths;
 
 	UPROPERTY(Replicated, BlueprintReadWrite)
 	FString PlayerName;
@@ -51,6 +57,15 @@ public:
 	
 	void MoveForward(float Value);
 	void MoveRight(float Value);
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void DoKill();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void DoRevive();
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void GiveNewBall();
 
 protected:
 

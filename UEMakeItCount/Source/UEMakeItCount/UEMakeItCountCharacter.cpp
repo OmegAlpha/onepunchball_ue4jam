@@ -64,8 +64,9 @@ void AUEMakeItCountCharacter::GetLifetimeReplicatedProps(TArray<FLifetimePropert
 
 	DOREPLIFETIME(AUEMakeItCountCharacter, PlayerName);
 	DOREPLIFETIME(AUEMakeItCountCharacter, QtyKills);
-
-	DOREPLIFETIME(AUEMakeItCountCharacter, Index_HeadMesh);
+	DOREPLIFETIME(AUEMakeItCountCharacter, IsAlive);
+	DOREPLIFETIME(AUEMakeItCountCharacter, DidShotThisRound);
+	DOREPLIFETIME(AUEMakeItCountCharacter, QtyDeaths);
 }
 
 void AUEMakeItCountCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
