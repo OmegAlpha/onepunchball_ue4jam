@@ -58,10 +58,10 @@ public:
 	void MoveForward(float Value);
 	void MoveRight(float Value);
 
-	UFUNCTION(BlueprintImplementableEvent)
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void DoKill();
 
-	UFUNCTION(BlueprintImplementableEvent)
+	UFUNCTION( BlueprintImplementableEvent, BlueprintCallable)
 	void DoRevive();
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
