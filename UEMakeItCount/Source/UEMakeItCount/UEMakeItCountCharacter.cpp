@@ -106,6 +106,9 @@ bool AUEMakeItCountCharacter::RegisterKill_Validate(int Qty)
 
 void AUEMakeItCountCharacter::MoveForward(float Value)
 {
+	if (!IsAlive)
+		return;
+
 	if ((Controller != NULL) && (Value != 0.0f))
 	{
 		// find out which way is forward
@@ -120,6 +123,9 @@ void AUEMakeItCountCharacter::MoveForward(float Value)
 
 void AUEMakeItCountCharacter::MoveRight(float Value)
 {
+	if (!IsAlive)
+		return;
+
 	if ((Controller != NULL) && (Value != 0.0f))
 	{
 		// find out which way is right
