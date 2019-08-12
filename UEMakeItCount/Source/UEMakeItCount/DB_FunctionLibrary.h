@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
+#include "UEMakeItCountCharacter.h"
 #include "DB_FunctionLibrary.generated.h"
 
 /**
@@ -22,5 +23,8 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "Global")
 	static bool CheckUserName(FString UserName);
+
+	UFUNCTION(BlueprintPure, Category = "Global")
+	static TArray<AUEMakeItCountCharacter*> SortByScore(TArray<AUEMakeItCountCharacter*> OrigAray);
 
 };

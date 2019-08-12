@@ -25,3 +25,35 @@ bool UDB_FunctionLibrary::CheckUserName(FString UserName)
 
 	return false;
 }
+
+TArray<AUEMakeItCountCharacter*> UDB_FunctionLibrary::SortByScore(TArray<AUEMakeItCountCharacter*> OrigArray)
+{
+	TArray<AUEMakeItCountCharacter*> RetArray;
+	TArray<AUEMakeItCountCharacter*> TempArray;
+
+	for (int i = 0; i < OrigArray.Num(); i++)
+	{
+		TempArray.Add(OrigArray[i]);
+	}
+
+	while (TempArray.Num() > 0)
+	{
+		AUEMakeItCountCharacter* NextHighScorePlayer = nullptr;
+		int NextHighScore = 0;
+
+		for (int i = 0; i < TempArray.Num(); i++)
+		{
+			if (TempArray[i]->QtyKills >= NextHighScore)
+			{
+				NextHighScorePlayer = TempArray[i];
+				NextHighScore = TempArray[i]->QtyKills;
+			}
+		}
+
+		RetArray.Add(NextHighScorePlayer);
+		TempArray.Remove(NextHighScorePlayer);
+	}
+
+
+	return RetArray;
+}
