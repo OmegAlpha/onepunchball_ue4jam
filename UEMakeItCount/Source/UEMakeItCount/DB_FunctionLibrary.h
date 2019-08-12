@@ -19,4 +19,8 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Global")
 	static UDB_OnlineSubSystem* GetOnline(UObject* WorldContext);
 
+
+	UFUNCTION(BlueprintPure, Category = "Global")
+	static bool CheckUserName(FString UserName);
+
 };

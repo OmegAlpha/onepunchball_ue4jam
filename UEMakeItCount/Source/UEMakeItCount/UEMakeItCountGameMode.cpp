@@ -36,8 +36,6 @@ void AUEMakeItCountGameMode::BeginPlay()
 
 	Cast<UDB_GameInstance>(GetGameInstance())->OnlineSubsystem->World = GetWorld();
 
-	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("GAME MODE INIT"));
-
 }
 
 void AUEMakeItCountGameMode::Tick(float DeltaTime)

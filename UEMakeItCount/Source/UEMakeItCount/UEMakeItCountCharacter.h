@@ -21,6 +21,9 @@ public:
 	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 	UPROPERTY(Replicated, BlueprintReadWrite)
+	FString Index_HeadMesh = TEXT("0");
+
+	UPROPERTY(Replicated, BlueprintReadWrite)
 	FString PlayerName;
 
 	UPROPERTY(Replicated, BlueprintReadWrite)

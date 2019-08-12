@@ -21,9 +21,6 @@ ADB_GameInfoActor::ADB_GameInfoActor()
 void ADB_GameInfoActor::BeginPlay()
 {
 	Super::BeginPlay();	
-
-	GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Emerald, TEXT("GAME INFO SPAWNED ................. :D"));
-
 }
 
 

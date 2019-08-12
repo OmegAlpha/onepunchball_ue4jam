@@ -9,6 +9,7 @@
 #include "DB_GameInstance.h"
 #include "DB_OnlineSubSystem.h"
 #include "UEMakeItCountPlayerController.h"
+#include "GameFramework/PlayerState.h"
 
 AUB_GameMode_MainMenu::AUB_GameMode_MainMenu()
 {
@@ -21,6 +22,15 @@ AUB_GameMode_MainMenu::AUB_GameMode_MainMenu()
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
+
+	static ConstructorHelpers::FClassFinder<APlayerState> PlayerStateBPClass(TEXT("/Game/0Game/Blueprints/bp_DB_PlayerState"));
+	if (PlayerStateBPClass.Class != NULL)
+	{
+		PlayerStateClass = PlayerStateBPClass.Class;
+	}
+
+
+	
 
 	PrimaryActorTick.bCanEverTick = true;
 }
@@ -35,10 +45,6 @@ void AUB_GameMode_MainMenu::BeginPlay()
 	// bUseSeamlessTravel = true;
 
 	Cast<UDB_GameInstance>(GetGameInstance())->OnlineSubsystem->World = GetWorld();
-
-	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("GAME MODE INIT"));
-
-
 	
 }
 

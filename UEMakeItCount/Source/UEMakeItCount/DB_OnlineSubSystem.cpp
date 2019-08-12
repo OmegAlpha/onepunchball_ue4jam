@@ -37,16 +37,12 @@ void UDB_OnlineSubSystem::Init()
 
 void UDB_OnlineSubSystem::AddPlayerToSession(APlayerController * LogInPlayer)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("Player ENTERED"));
-
 	PlayersInSession.Add(LogInPlayer);
 	OnPlayersListRefreshed.Broadcast();
 }
 
 void UDB_OnlineSubSystem::RemovePlayerFromSession(APlayerController* LogInPlayer)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("Player EXITED"));
-
 	if (PlayersInSession.Contains(LogInPlayer))
 	{
 		PlayersInSession.Remove(LogInPlayer);
@@ -56,7 +52,10 @@ void UDB_OnlineSubSystem::RemovePlayerFromSession(APlayerController* LogInPlayer
 
 void UDB_OnlineSubSystem::CreateSession()
 {
-	FString PlayerName = Cast<UDB_GameInstance>(World->GetGameInstance())->PlayerName;
+	AUEMakeItCountPlayerController* PC = 
+		Cast< AUEMakeItCountPlayerController>(World->GetFirstPlayerController());
+
+	FString PlayerName = PC->GetGameCharacter()->PlayerName;
 
 	SessionName = FName(*FString::Printf(TEXT("Session_%s"), *PlayerName));
 
@@ -118,7 +117,6 @@ void UDB_OnlineSubSystem::OnCreateSessionCompleteDelegate_Handle(FName SessionNa
 
 	if (!ensure(World != nullptr))
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Yellow, TEXT("NO WORLD WTF"));
 		return;
 	}
 
@@ -150,11 +148,8 @@ void UDB_OnlineSubSystem::OnSessionsRefreshed_Handle(bool Success)
 {
 	if (!SessionSearch.IsValid() || !Success)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red,FString::Printf(TEXT("Invalid Session Search or NOT SUCCESS")));
 		return;
 	}
-
-	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red,FString::Printf(TEXT("SERVERS FOUND--> %d"), SessionSearch->SearchResults.Num())	);
 
 	ServersFound.Empty();
 
@@ -196,12 +191,8 @@ void UDB_OnlineSubSystem::OnJoinSessionComplete_Handle(FName SessionName, EOnJoi
 {
 	if (!SessionInterface.IsValid())
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, TEXT("INVALID SESSION INTERFACE WHEN JOINING"));
 		return;
 	}
-
-	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, FString::Printf(TEXT("JOINED TO: %s"), *SessionName.ToString()));	
-
 
 	// get the connect string from the session interface and store platform specific connection information into Address
 	FString Address;
@@ -213,7 +204,6 @@ void UDB_OnlineSubSystem::OnJoinSessionComplete_Handle(FName SessionName, EOnJoi
 	UEngine* Engine = GEngine;
 	if (!ensure(Engine != nullptr))
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, TEXT("NO ENGINE"));
 		return;
 	}
 
@@ -221,11 +211,9 @@ void UDB_OnlineSubSystem::OnJoinSessionComplete_Handle(FName SessionName, EOnJoi
 	APlayerController* PC = World->GetFirstPlayerController();
 	if (!ensure(PC != nullptr))
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, TEXT("NO LOCAL PLAYERCONTROLLER"));
 		return;
 	}
 
-	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, FString::Printf(TEXT("Travelling to: %s"), *Address));
 	PC->ClientTravel(Address, ETravelType::TRAVEL_Absolute);
 
 }
@@ -261,7 +249,6 @@ void UDB_OnlineSubSystem::OnStartSessionCompleteDelegate_Handle(FName SessionNam
 
 void UDB_OnlineSubSystem::OnDestroySessionComplete_Handle(FName SessionName, bool Success)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, TEXT("Session Destroyed"));
 	UE_LOG(LogTemp, Warning, TEXT("[DB] Session Destroyed"));
 
 	if (IsRecreatingSession)

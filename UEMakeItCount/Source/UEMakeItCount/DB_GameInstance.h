@@ -17,6 +17,22 @@ class UEMAKEITCOUNT_API UDB_GameInstance : public UGameInstance
 public:
 
 	UPROPERTY(BlueprintReadWrite)
+	FString IndexSetup_HeadMesh;
+
+	UPROPERTY(BlueprintReadWrite)
+	FString IndexSetup_HeadColor;
+
+	UPROPERTY(BlueprintReadWrite)
+	FString IndexSetup_BodyMesh;
+
+	UPROPERTY(BlueprintReadWrite)
+	FString IndexSetup_BodyColor;
+
+	UPROPERTY(BlueprintReadWrite)
+	FString IndexSetup_WholeBodyColor;
+
+
+	UPROPERTY(BlueprintReadWrite)
 	class UUserWidget* MainParentWidget;
 
 	UPROPERTY(BlueprintReadOnly)
@@ -26,6 +42,4 @@ public:
 	FString PlayerName;
 
 	virtual void Init() override;
-
-
 };

@@ -11,6 +11,7 @@
 #include "DB_GameInfoActor.h"
 #include "Engine/Engine.h"
 #include "GameFramework/Actor.h"
+#include "GameFramework/PlayerState.h"
 
 ADB_GameMode_Gameplay::ADB_GameMode_Gameplay()
 {
@@ -24,16 +25,19 @@ ADB_GameMode_Gameplay::ADB_GameMode_Gameplay()
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
 
+
+	static ConstructorHelpers::FClassFinder<APlayerState> PlayerStateBPClass(TEXT("/Game/0Game/Blueprints/bp_DB_PlayerState"));
+	if (PlayerStateBPClass.Class != NULL)
+	{
+		PlayerStateClass = PlayerStateBPClass.Class;
+	}
+
 	PrimaryActorTick.bCanEverTick = true;
 }
 
 void ADB_GameMode_Gameplay::BeginPlay()
 {
 	Super::BeginPlay();
-
-	GEngine->AddOnScreenDebugMessage(-1, 4.f, FColor::Red, TEXT("GAMEPLAY BEGIN PLAY 2222222222222"));
-
-	
 
 	if (HasAuthority())
 	{
@@ -75,7 +79,6 @@ void ADB_GameMode_Gameplay::CreateGameInfo()
 	
 	if (GameInfo == nullptr)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, TEXT("333 APWANIG AADF INFO"));
 		FVector Location(0.0f, 0.0f, 0.0f);
 		FRotator Rotation(0.0f, 0.0f, 0.0f);
 		FActorSpawnParameters SpawnInfo;
