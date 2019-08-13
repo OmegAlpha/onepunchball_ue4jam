@@ -15,8 +15,13 @@
 
 ADB_GameMode_Gameplay::ADB_GameMode_Gameplay()
 {
-	// use our custom PlayerController class
-	PlayerControllerClass = AUEMakeItCountPlayerController::StaticClass();
+	// set default pawn class to our Blueprinted character
+	static ConstructorHelpers::FClassFinder<APawn> PlayerControllerBPClass(TEXT("/Game/0Game/Blueprints/bp_DB_PlayerController"));
+	if (PlayerControllerBPClass.Class != NULL)
+	{
+		DefaultPawnClass = PlayerControllerBPClass.Class;
+	}
+
 
 	// set default pawn class to our Blueprinted character
 	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/TopDownCPP/Blueprints/TopDownCharacter"));
@@ -25,6 +30,7 @@ ADB_GameMode_Gameplay::ADB_GameMode_Gameplay()
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
 
+	
 
 	static ConstructorHelpers::FClassFinder<APlayerState> PlayerStateBPClass(TEXT("/Game/0Game/Blueprints/bp_DB_PlayerState"));
 	if (PlayerStateBPClass.Class != NULL)
