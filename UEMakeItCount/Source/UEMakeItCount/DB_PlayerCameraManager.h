@@ -14,4 +14,6 @@ class UEMAKEITCOUNT_API ADB_PlayerCameraManager : public APlayerCameraManager
 {
 	GENERATED_BODY()
 	
+	virtual void DoUpdateCamera(float DeltaTime) override;
+
 };
