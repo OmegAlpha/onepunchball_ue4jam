@@ -36,10 +36,12 @@ TArray<AUEMakeItCountCharacter*> UDB_FunctionLibrary::SortByScore(TArray<AUEMake
 		TempArray.Add(OrigArray[i]);
 	}
 
+	int tries = 0;
+
 	while (TempArray.Num() > 0)
 	{
 		AUEMakeItCountCharacter* NextHighScorePlayer = nullptr;
-		int NextHighScore = 0;
+		int NextHighScore = -999999;
 
 		for (int i = 0; i < TempArray.Num(); i++)
 		{
@@ -52,6 +54,11 @@ TArray<AUEMakeItCountCharacter*> UDB_FunctionLibrary::SortByScore(TArray<AUEMake
 
 		RetArray.Add(NextHighScorePlayer);
 		TempArray.Remove(NextHighScorePlayer);
+
+		tries++;
+
+		if(tries > 100)
+			return RetArray;
 	}
 
 
