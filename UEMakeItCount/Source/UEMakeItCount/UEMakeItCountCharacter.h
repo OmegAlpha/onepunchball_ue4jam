@@ -20,6 +20,9 @@ public:
 
 	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
+	UPROPERTY(BlueprintReadWrite)
+	bool CanMove;
+
 	UPROPERTY(Replicated, BlueprintReadWrite)
 	bool IsAlive;
 
@@ -30,10 +33,13 @@ public:
 	bool QtyDeaths;
 
 	UPROPERTY(Replicated, BlueprintReadWrite)
-	FString PlayerName;
+	FString PlayerName = TEXT("PlaceHolder");
 
 	UPROPERTY(Replicated, BlueprintReadWrite)
 	int QtyKills;
+
+	UPROPERTY(Replicated, BlueprintReadWrite)
+	int QtyMatchWins;
 
 	// Called every frame.
 	virtual void Tick(float DeltaSeconds) override;

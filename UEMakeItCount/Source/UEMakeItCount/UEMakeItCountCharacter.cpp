@@ -67,6 +67,7 @@ void AUEMakeItCountCharacter::GetLifetimeReplicatedProps(TArray<FLifetimePropert
 	DOREPLIFETIME(AUEMakeItCountCharacter, IsAlive);
 	DOREPLIFETIME(AUEMakeItCountCharacter, DidShotThisRound);
 	DOREPLIFETIME(AUEMakeItCountCharacter, QtyDeaths);
+	DOREPLIFETIME(AUEMakeItCountCharacter, QtyMatchWins);
 }
 
 void AUEMakeItCountCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
@@ -106,7 +107,7 @@ bool AUEMakeItCountCharacter::RegisterKill_Validate(int Qty)
 
 void AUEMakeItCountCharacter::MoveForward(float Value)
 {
-	if (!IsAlive)
+	if (!IsAlive || !CanMove)
 		return;
 
 	if ((Controller != NULL) && (Value != 0.0f))
@@ -123,7 +124,7 @@ void AUEMakeItCountCharacter::MoveForward(float Value)
 
 void AUEMakeItCountCharacter::MoveRight(float Value)
 {
-	if (!IsAlive)
+	if (!IsAlive || !CanMove)
 		return;
 
 	if ((Controller != NULL) && (Value != 0.0f))
