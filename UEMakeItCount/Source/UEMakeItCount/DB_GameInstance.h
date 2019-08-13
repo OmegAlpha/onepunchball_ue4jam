@@ -39,7 +39,7 @@ public:
 	class UDB_OnlineSubSystem* OnlineSubsystem;
 
 	UPROPERTY(BlueprintReadWrite)
-	FString PlayerName;
+	FString PlayerName = TEXT("Placehoder");
 
 	virtual void Init() override;
 };
