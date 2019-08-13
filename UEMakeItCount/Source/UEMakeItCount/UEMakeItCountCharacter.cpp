@@ -98,6 +98,12 @@ void AUEMakeItCountCharacter::BeginPlay()
 void AUEMakeItCountCharacter::RegisterKill_Implementation(int Qty)
 {
 	QtyKills += Qty;
+
+	if (Qty > 0)
+	{
+		OnScoredPoint();
+	}
+
 }
 
 bool AUEMakeItCountCharacter::RegisterKill_Validate(int Qty)

@@ -57,7 +57,7 @@ void UDB_OnlineSubSystem::CreateSession()
 
 	FString PlayerName = PC->GetGameCharacter()->PlayerName;
 
-	SessionName = FName(*FString::Printf(TEXT("Session_%s"), *PlayerName));
+	SessionName = SESSION_NAME;
 
 	UE_LOG(LogTemp, Warning, TEXT("[DB] Starting find session"));
 
@@ -76,7 +76,6 @@ void UDB_OnlineSubSystem::CreateSession()
 
 			if (ExistingSession != nullptr)
 			{
-				IsRecreatingSession = true;
 				SessionInterface->DestroySession(SessionName);
 			}
 			else
@@ -130,6 +129,13 @@ void UDB_OnlineSubSystem::OnCreateSessionCompleteDelegate_Handle(FName SessionNa
 
 void UDB_OnlineSubSystem::RefreshSessions()
 {
+
+	auto ExistingSession = SessionInterface->GetNamedSession(SessionName);
+	if (ExistingSession != nullptr)
+	{
+		SessionInterface->DestroySession(SessionName);
+	}
+
 	SessionSearch = MakeShareable(new FOnlineSessionSearch()); 
 
 	if (SessionSearch.IsValid()) {
@@ -221,16 +227,8 @@ void UDB_OnlineSubSystem::OnJoinSessionComplete_Handle(FName SessionName, EOnJoi
 
 void UDB_OnlineSubSystem::DestroySession()
 {
-	IsRecreatingSession = false;
-
-	if (SessionInterface)
-	{
-		SessionInterface->DestroySession(SessionName);
-	}	
+	SessionInterface->DestroySession(SessionName);
 }
-
-
-
 
 
 void UDB_OnlineSubSystem::OnStartSessionCompleteDelegate_Handle(FName SessionName, bool Success)
@@ -250,9 +248,4 @@ void UDB_OnlineSubSystem::OnStartSessionCompleteDelegate_Handle(FName SessionNam
 void UDB_OnlineSubSystem::OnDestroySessionComplete_Handle(FName SessionName, bool Success)
 {
 	UE_LOG(LogTemp, Warning, TEXT("[DB] Session Destroyed"));
-
-	if (IsRecreatingSession)
-	{
-		CreateSession();
-	}
 }

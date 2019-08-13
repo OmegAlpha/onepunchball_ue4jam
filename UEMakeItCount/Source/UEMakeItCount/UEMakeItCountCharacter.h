@@ -60,6 +60,9 @@ public:
 	void RegisterKill_Implementation(int Qty);
 	bool RegisterKill_Validate(int Qty);
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnScoredPoint();
+
 	
 	void MoveForward(float Value);
 	void MoveRight(float Value);
