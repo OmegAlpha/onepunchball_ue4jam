@@ -1,0 +1,17 @@
+Assembly-CSharp-Editor.csproj
+Assembly-CSharp.csproj
+Library
+Temp
+Scatter.sln
+UnityProject.sln
+Builds
+TestResults
+obj
+.vs/UnityProject/v14/.suo
+.vs/config
+*.csproj
+
+
+.idea
+Assets/Plugins/Editor/JetBrains
+Assets/Plugins/Editor/JetBrains.meta
