@@ -2,9 +2,11 @@ Assembly-CSharp-Editor.csproj
 Assembly-CSharp.csproj
 Library
 Temp
+Build
 Scatter.sln
 UnityProject.sln
 Builds
+Bolt_DebugStart_Build
 TestResults
 obj
 .vs/UnityProject/v14/.suo
