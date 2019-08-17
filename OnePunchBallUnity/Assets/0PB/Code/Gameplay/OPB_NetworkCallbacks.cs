@@ -17,6 +17,7 @@ public class OPB_NetworkCallbacks : Bolt.GlobalEventListener
         {
             Debug.Log("[Server] Instantiating Objects");
             BoltNetwork.Instantiate(BoltPrefabs.Entity_GameRules, Vector3.zero, Quaternion.identity);
+            BoltNetwork.Instantiate(BoltPrefabs.CameraSettings, Vector3.zero, Quaternion.identity);
         }
     }
 }

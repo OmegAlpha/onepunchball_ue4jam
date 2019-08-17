@@ -82,7 +82,7 @@ public class OPB_KillerBall : Bolt.EntityEventListener<IOPB_KillerBallStated>
     // ONLY SERVER
     public void HitToPlayer(OPB_PlayerController player)
     {
-        if(state.InHand)
+        if(state.InHand || ! player.state.IsAlive)
             return;
         
         if (player == OwnerPlayer)

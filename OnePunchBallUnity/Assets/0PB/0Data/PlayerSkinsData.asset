@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d013869e1ce127140a3cd80f0a57580c, type: 3}
+  m_Name: PlayerSkinsData
+  m_EditorClassIdentifier: 
+  Meshes_ArmorHead:
+  - {fileID: -7386160538418156888, guid: 31a4bb14f590c56418167c77908fe57a, type: 3}
+  - {fileID: 193596098271062731, guid: ec7d548dfd66d29408089f5dbf157b75, type: 3}
+  - {fileID: -4882989233928276755, guid: 847e251e6896bdb43aefd8cadb4012f4, type: 3}
+  - {fileID: -6275581678413560525, guid: bde7fd14141af3e4980cb4fd8a8ecf3c, type: 3}
+  - {fileID: 1105222011542515124, guid: aae01528f3a89cb49a84492a2cd2c921, type: 3}
+  - {fileID: -6501332064504535607, guid: 6ce13199fd0982a4a9bb424f339ebbf6, type: 3}
+  - {fileID: 4188293499011170254, guid: e699a6d4fab4d3449ad54fb332455af1, type: 3}
+  - {fileID: -5571365520254833487, guid: 13528596ade937748ae86030b75af990, type: 3}
+  - {fileID: 2153415618687104692, guid: b863f0664dcb405418ee9a3451019482, type: 3}
+  - {fileID: 1270429329034202104, guid: b9c34a174d7f0ac489b6fa2916c03aef, type: 3}
+  - {fileID: 7362698589862072033, guid: ce9817fa5430e8c489a622aab9db7a0c, type: 3}
+  - {fileID: 6239881831769578202, guid: ee2d30a3931bfed41ae5d5f2dc379b35, type: 3}
+  - {fileID: -5339946178962403724, guid: 6315c8a4601e61844a575fd220885486, type: 3}
+  - {fileID: -4869880940664391737, guid: 40e4b0c50d274c544bd3ce4f3b0a6fc4, type: 3}
+  - {fileID: 5183462104146270330, guid: a7ad1cf77f17fbb4f8c4f18c37b657cf, type: 3}
+  - {fileID: -279450346691081803, guid: efcc43adb61e6d943a0c9a3158a117ec, type: 3}
+  - {fileID: 5581585350164747969, guid: cf1c902ae5dc5ae4faec0b2d88124cd1, type: 3}
+  - {fileID: -314379891321717391, guid: c623c659eb39d13429711bc36dcbbe83, type: 3}
+  - {fileID: 1476740488669816102, guid: 23713aa88d5edd74886144a706c55b0f, type: 3}
+  - {fileID: -9187442499245070323, guid: 6b588f3d3785a86489699fc98876ebb4, type: 3}
+  - {fileID: -4877037991443433781, guid: 72a21c9dd23378a46a52e653bf797857, type: 3}
+  - {fileID: -4219333817343177906, guid: 890eab376294dcd4ba29edffc2659c89, type: 3}
+  - {fileID: 6984088965767800921, guid: a31d9c98ab8de5d4282fb4feab0572f9, type: 3}
+  - {fileID: -8832312659721980211, guid: 345195ae3282c794f8c84ea12433d31e, type: 3}
+  - {fileID: -1578011144967024137, guid: 567e54abccbec9e4e8aa891e41be488b, type: 3}
+  Meshes_ArmorHips:
+  - {fileID: 8691780276856062721, guid: 0a358260471bab64bb04036c70f9e543, type: 3}
+  - {fileID: 2534964839176971238, guid: a824ac2fbde5a7440bfeac20c338380c, type: 3}
+  - {fileID: -8836257720725419632, guid: adf1752394ce7ff4fb0702a6ff84558b, type: 3}
+  - {fileID: 4493585093827132993, guid: 5c331f6aecea3f34990824798e3bb1a3, type: 3}
+  - {fileID: 4579454407841743219, guid: 235635121a68da940b81d1b83637b2af, type: 3}
+  - {fileID: 6416302070336371891, guid: 8147e809bf088244ba471d2fb7c69cc2, type: 3}
+  - {fileID: 1004078566065018143, guid: 63bdeb61749c3ff469536fc6a2248db9, type: 3}
+  - {fileID: -6608909758885157259, guid: ae062cb82c303644e8a8a895bdd1c7cb, type: 3}
+  - {fileID: -5186082072705401775, guid: cc8b3a6266ae617438c3c74ad5296c6e, type: 3}
+  - {fileID: -1550514412580984892, guid: 8ed5b23e287aa674fae796dcf7cf4d55, type: 3}
+  - {fileID: -7387706064836869012, guid: ce26ee824499f8f498ae946016b44735, type: 3}
+  ColorsPalette:
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0, g: 0.9032209, b: 1, a: 1}
+  - {r: 0.98844004, g: 1, b: 0, a: 1}
+  - {r: 0, g: 0, b: 0, a: 1}
+  - {r: 0, g: 1, b: 0, a: 1}
+  - {r: 1, g: 0, b: 0.733706, a: 1}
+  - {r: 0, g: 0.06319451, b: 1, a: 1}
+  - {r: 0, g: 0.96305275, b: 1, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 0.6084906, b: 0.8215705, a: 1}
+  - {r: 0.6132076, g: 0.6132076, b: 0.6132076, a: 1}
+  - {r: 1, g: 0.62514454, b: 0, a: 1}
+  - {r: 0, g: 0.2830189, b: 0, a: 1}
+  - {r: 0, g: 1, b: 0.39359426, a: 1}
+  - {r: 0.4528302, g: 0, b: 0.14502558, a: 1}

@@ -5,6 +5,7 @@ using Bolt;
 using JetBrains.Annotations;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Quaternion = UnityEngine.Quaternion;
 using Vector3 = UnityEngine.Vector3;
 
@@ -17,10 +18,12 @@ public class OPB_PlayerController : Bolt.EntityEventListener<IOPB_PlayerState>
     private GameObject charMesh;
     
     [SerializeField]
-    private SkinnedMeshRenderer playerMeshRenderer;
+    private OPB_UI_PlayerSkinModel skinModel;
     
     [SerializeField]
-    private GameObject playerCamera;
+    private GameObject playerCameraObject;
+
+    private Camera playerCamera;
     
     [SerializeField]
     private TextMeshPro txtPlayerName;
@@ -33,41 +36,51 @@ public class OPB_PlayerController : Bolt.EntityEventListener<IOPB_PlayerState>
     
     [SerializeField]
     private Transform tHandPosition;
-    
-    [SerializeField]
-    private Material material_Common;
-    
-    [SerializeField]
-    private Material material_Dead;
 
     public Transform THandPosition => tHandPosition;
 
     private OPB_KillerBall ballInHand;
+
+    public bool Debug_OverrideCameraPosition;
     
     public override void Attached()
     {
+        playerCamera = playerCameraObject.GetComponent<Camera>();
+        
         state.SetTransforms(state.PlayerTransform, transform);
 
         if (!entity.IsOwner)
         {
             gameObject.name = "player lejano";
-            Destroy(playerCamera);
+            Destroy(playerCameraObject);
         }
 
         if (BoltNetwork.IsServer)
         {
             GiveNewBall();
         }
-        
+
         if (entity.IsOwner)
         {
             LocalInstance = this;
             state.IsAlive = true;
             state.CanMove = true;
-            state.UserName = GlobalEvents.USERNAME;
+            state.UserName = OPB_LocalUserInfo.UserName;
+            state.SkinString = OPB_LocalUserInfo.GetSkinString();
         }
-        
+
+        if (!entity.IsOwner && !BoltNetwork.IsServer)
+        {
+            Destroy(charController);
+        }
+
         state.AddCallback("IsAlive", OnStateChanged_IsAlive);
+        state.AddCallback("SkinString", OnStateChange_SkinString);
+    }
+
+    private void OnStateChange_SkinString()
+    {
+        skinModel.ApplyFromSkinString(state.SkinString);
     }
 
     private void OnStateChanged_IsAlive()
@@ -121,7 +134,7 @@ public class OPB_PlayerController : Bolt.EntityEventListener<IOPB_PlayerState>
         if (Input.GetMouseButtonDown(0))
         {
             RaycastHit hit;
-            Ray ray = playerCamera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
+            Ray ray = playerCameraObject.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
         
             if (Physics.Raycast(ray, out hit))
             {
@@ -147,10 +160,42 @@ public class OPB_PlayerController : Bolt.EntityEventListener<IOPB_PlayerState>
             charMesh.transform.eulerAngles = new Vector3(0, state.yRotation, 0); 
         }
         
-        playerMeshRenderer.material = state.IsAlive ? material_Common : material_Dead;
-        charController.detectCollisions = state.IsAlive;
+        if(state.IsAlive)
+            skinModel.RefreshAliveMaterial();
+        else
+        {
+            skinModel.SetDead();
+        }
+
+        if (BoltNetwork.IsServer || entity.IsOwner)
+        {
+            charController.detectCollisions = state.IsAlive;
+        }
         
         txtPlayerName.text = state.Score.ToString() + "-" + state.UserName;
+
+        if (BoltNetwork.IsServer)
+        {
+            if (OPB_CameraSettings.Instance != null && entity.IsOwner)
+            {
+                OPB_CameraSettings.Instance.state.FOV = playerCamera.fieldOfView;
+                OPB_CameraSettings.Instance.state.LocalPos = playerCamera.transform.localPosition;
+                OPB_CameraSettings.Instance.state.LocalEuler = playerCamera.transform.localEulerAngles;
+
+            }
+            
+        }
+        else
+        {
+            if (OPB_CameraSettings.Instance != null && entity.IsOwner)
+            {
+                playerCamera.fieldOfView = OPB_CameraSettings.Instance.state.FOV;
+                playerCamera.transform.localPosition = OPB_CameraSettings.Instance.state.LocalPos;
+                playerCamera.transform.localEulerAngles = OPB_CameraSettings.Instance.state.LocalEuler;
+            }
+        }
+        
+        
     }
     
     

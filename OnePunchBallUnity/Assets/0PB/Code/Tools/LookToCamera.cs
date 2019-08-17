@@ -15,5 +15,6 @@ public class LookToCamera : MonoBehaviour
         Vector3 direction = (lookAt.transform.position - transform.position).normalized; 
         
         transform.LookAt( transform.position - direction );
+        transform.eulerAngles = new Vector3(transform.eulerAngles.x, 0, transform.eulerAngles.z); 
     }
 }

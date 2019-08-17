@@ -25,8 +25,6 @@ public class OPB_Bolt_GlobalEventsListener : Bolt.GlobalEventListener
 
             BoltMatchmaking.CreateSession(sessionID);
             BoltNetwork.LoadScene("Gameplay");
-            
-            
         }
     }
 
