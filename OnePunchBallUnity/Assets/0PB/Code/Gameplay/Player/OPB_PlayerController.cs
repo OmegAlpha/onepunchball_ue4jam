@@ -226,6 +226,15 @@ public class OPB_PlayerController : Bolt.EntityEventListener<IOPB_PlayerState>
             StartRound_ClientNotOwner();
     }
 
+    public void EndRound()
+    {
+        if (entity.IsOwner)
+        {
+            state.IsAlive = true;
+            state.CanMove = true;
+        }
+    }
+
     private void StartRound_Server()
     {
         GiveNewBall();

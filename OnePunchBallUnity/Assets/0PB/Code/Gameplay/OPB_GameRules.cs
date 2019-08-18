@@ -48,7 +48,9 @@ public class OPB_GameRules : Bolt.EntityBehaviour<IOPB_GameRuleState>
         }
 
         OPB_Bolt_GlobalEventsListener.OnRoundStarted.AddListener(OnRoundStarted_Clients);
+        OPB_Bolt_GlobalEventsListener.OnRoundFinished.AddListener(OnRoundFinished_Clients);
     }
+   
 
     public override void SimulateOwner()
     {
@@ -94,9 +96,16 @@ public class OPB_GameRules : Bolt.EntityBehaviour<IOPB_GameRuleState>
 
     private void OnRoundStarted_Clients()
     {
-        List<OPB_PlayerController> allPlayers = GameObject.FindObjectsOfType<OPB_PlayerController>().ToList();
+        List<OPB_PlayerController> allPlayers = FindObjectsOfType<OPB_PlayerController>().ToList();
         
-        allPlayers.ForEach(p => { (p as OPB_PlayerController).StartRound(); });
+        allPlayers.ForEach(p => { p.StartRound(); });
+    }
+    
+    private void OnRoundFinished_Clients()
+    {
+        List<OPB_PlayerController> allPlayers = FindObjectsOfType<OPB_PlayerController>().ToList();
+        
+        allPlayers.ForEach(p => { p.EndRound(); }); 
     }
     
     private void StartRound()

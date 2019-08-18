@@ -68,7 +68,7 @@ public class OPB_KillerBall : Bolt.EntityEventListener<IOPB_KillerBallStated>
         {
             if (!state.InHand)
             {
-                state.BallTransform = transform.position + MovementDirection * 25f * Time.deltaTime;
+                state.BallPosition = transform.position + MovementDirection * 25f * Time.deltaTime;
             }
         }
     }
@@ -124,7 +124,7 @@ public class OPB_KillerBall : Bolt.EntityEventListener<IOPB_KillerBallStated>
     {
         if (!state.InHand)
         {
-            transform.position = state.BallTransform;
+            transform.position = state.BallPosition;
         }
     }
 
@@ -135,7 +135,7 @@ public class OPB_KillerBall : Bolt.EntityEventListener<IOPB_KillerBallStated>
             entity.TakeControl();
             state.InHand = false;
             MovementDirection = ShootDirection;
-            state.BallTransform = new Vector3(transform.position.x, 2.6f, transform.position.z);
+            state.BallPosition = new Vector3(transform.position.x, 2.6f, transform.position.z);
         }
     }
 
