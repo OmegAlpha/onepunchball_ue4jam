@@ -4,6 +4,9 @@ using System.Linq;
 using Bolt;
 using UnityEngine;
 
+
+
+
 public class OPB_GameRules : Bolt.EntityBehaviour<IOPB_GameRuleState>
 {
     public static OPB_GameRules Instance;
@@ -15,6 +18,10 @@ public class OPB_GameRules : Bolt.EntityBehaviour<IOPB_GameRuleState>
     private int localTimer = 0;
 
     private bool IsMatchRunning = false;
+    
+    
+
+    private float timerUpdateUserList = 0;
     
     private void Awake()
     {
@@ -42,8 +49,6 @@ public class OPB_GameRules : Bolt.EntityBehaviour<IOPB_GameRuleState>
 
         OPB_Bolt_GlobalEventsListener.OnRoundStarted.AddListener(OnRoundStarted_Clients);
     }
-
-    
 
     public override void SimulateOwner()
     {

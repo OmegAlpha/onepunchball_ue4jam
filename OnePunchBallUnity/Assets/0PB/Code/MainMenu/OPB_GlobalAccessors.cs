@@ -6,12 +6,14 @@ using UnityEngine;
 public class OPB_GlobalAccessors
 {
     private static Dictionary<Type, List<EntityBehaviour>> spawnedEntitiesByBehType = new Dictionary<Type, List<EntityBehaviour>>();
-
+    
+    public static List<OPB_PlayerController> ConnectedPlayers = new List<OPB_PlayerController>();
+    
     public static void AddEntity(Type type, EntityBehaviour entityBeh)
     {
         if (!spawnedEntitiesByBehType.ContainsKey(type))
             spawnedEntitiesByBehType.Add(type, new List<EntityBehaviour>());
-
+        
         spawnedEntitiesByBehType[type].Add(entityBeh);
     }
     

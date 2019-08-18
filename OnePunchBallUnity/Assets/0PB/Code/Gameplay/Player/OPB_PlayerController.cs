@@ -9,7 +9,9 @@ using UnityEngine.Serialization;
 using Quaternion = UnityEngine.Quaternion;
 using Vector3 = UnityEngine.Vector3;
 
-
+   
+    
+    
 public class OPB_PlayerController : Bolt.EntityEventListener<IOPB_PlayerState>
 {
     public static OPB_PlayerController LocalInstance;
@@ -48,6 +50,8 @@ public class OPB_PlayerController : Bolt.EntityEventListener<IOPB_PlayerState>
         playerCamera = playerCameraObject.GetComponent<Camera>();
         
         state.SetTransforms(state.PlayerTransform, transform);
+        
+        OPB_GlobalAccessors.ConnectedPlayers.Add(this);
 
         if (!entity.IsOwner)
         {
@@ -78,6 +82,8 @@ public class OPB_PlayerController : Bolt.EntityEventListener<IOPB_PlayerState>
         state.AddCallback("SkinString", OnStateChange_SkinString);
     }
 
+    
+    
     private void OnStateChange_SkinString()
     {
         skinModel.ApplyFromSkinString(state.SkinString);
@@ -100,6 +106,8 @@ public class OPB_PlayerController : Bolt.EntityEventListener<IOPB_PlayerState>
     private void OnDestroy()
     {
         LocalInstance = null;
+        
+        OPB_GlobalAccessors.ConnectedPlayers.Remove(this);
     }
 
     public override void SimulateOwner()
@@ -129,6 +137,11 @@ public class OPB_PlayerController : Bolt.EntityEventListener<IOPB_PlayerState>
             state.yRotation = charMesh.transform.eulerAngles.y;
 
             charController.Move(movement);
+
+            if (BoltNetwork.IsClient)
+            {
+                state.ServerPing = BoltNetwork.Server.PingAliased;
+            }
         }
         
         if (Input.GetMouseButtonDown(0))
@@ -149,7 +162,6 @@ public class OPB_PlayerController : Bolt.EntityEventListener<IOPB_PlayerState>
             
             
         }
-        
     }
 
     private void Update()

@@ -16,7 +16,7 @@ public class OPB_Bolt_GlobalEventsListener : Bolt.GlobalEventListener
     public static readonly EventBoltSessionsReceived OnSessionsReceived = new EventBoltSessionsReceived();
     public static readonly UnityEvent OnRoundFinished = new UnityEvent();
     public static readonly UnityEvent OnRoundStarted = new UnityEvent();
-    
+        
     public override void BoltStartDone()
     {
         if (BoltNetwork.IsServer)
@@ -82,4 +82,9 @@ public class OPB_Bolt_GlobalEventsListener : Bolt.GlobalEventListener
             }
         } 
     }
+    
+    public override void Connected(BoltConnection connection) 
+    {
+    }
+
 }
