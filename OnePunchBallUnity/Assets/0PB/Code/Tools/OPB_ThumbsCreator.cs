@@ -30,24 +30,8 @@ public class OPB_ThumbsCreator : MonoBehaviour
         int i = 0;
         foreach (var headMesh in skinsData.Meshes_ArmorHead)
         {
-            meshFilter.mesh = headMesh;
-            
-            rTexture.Release();
-            
-            camera.Render();
-        
-            Texture2D text2d = new Texture2D(rTexture.width, rTexture.height);
-            RenderTexture.active = rTexture;
-            text2d.ReadPixels(new Rect(0, 0, rTexture.width, rTexture.height), 0, 0);
-            text2d.Apply();
-
-            string textureLocation = "Assets/0PB/0Data/GeneratedThumbs/";
-            string textureName = "thumb_head_" + i.ToString("000") + ".png";
-            
-            File.WriteAllBytes( textureLocation + textureName, text2d.EncodeToPNG());
-            
-            Texture2D textureJustCreated = AssetDatabase.LoadAssetAtPath<Texture2D>(textureLocation + textureName );
-            skinsData.Meshes_ArmorHead_Thumbs.Add(textureJustCreated);
+            Texture2D txt = CreateThumb(headMesh, i, "head");
+            skinsData.Meshes_ArmorHead_Thumbs.Add(txt);
             
             i++;
         }
@@ -55,29 +39,8 @@ public class OPB_ThumbsCreator : MonoBehaviour
         i = 0;
         foreach (var hipsMesh in skinsData.Meshes_ArmorHips)
         {
-            meshFilter.mesh = hipsMesh;
-
-            camera.Render();
-            
-            FitCameraToObject(meshFilter.gameObject);
-            
-            rTexture.Release();
-            
-            camera.Render();
-        
-            Texture2D text2d = new Texture2D(rTexture.width, rTexture.height);
-            RenderTexture.active = rTexture;
-            text2d.ReadPixels(new Rect(0, 0, rTexture.width, rTexture.height), 0, 0);
-            text2d.Apply();
-
-            string textureLocation = "Assets/0PB/0Data/GeneratedThumbs/";
-            string textureName = "thumb_hips_" + i.ToString("000") + ".png";
-            
-            File.WriteAllBytes( textureLocation + textureName, text2d.EncodeToPNG());
-            
-            Texture2D textureJustCreated = AssetDatabase.LoadAssetAtPath<Texture2D>(textureLocation + textureName );
-            skinsData.Meshes_ArmorHips_Thumbs.Add(textureJustCreated);
-            
+            Texture2D txt = CreateThumb(hipsMesh, i, "hips");
+            skinsData.Meshes_ArmorHips_Thumbs.Add(txt);
             i++;
         }
         
@@ -87,27 +50,40 @@ public class OPB_ThumbsCreator : MonoBehaviour
         RenderTexture.active = prevRT;
     }
 
+    private Texture2D CreateThumb(Mesh mesh, int index, string subfix)
+    {
+        meshFilter.mesh = mesh;
+
+        camera.Render();
+            
+        FitCameraToObject(meshFilter.gameObject);
+            
+        rTexture.Release();
+            
+        camera.Render();
+        
+        Texture2D text2d = new Texture2D(rTexture.width, rTexture.height);
+        RenderTexture.active = rTexture;
+        text2d.ReadPixels(new Rect(0, 0, rTexture.width, rTexture.height), 0, 0);
+        text2d.Apply();
+
+        string textureLocation = "Assets/0PB/0Data/GeneratedThumbs/";
+        string textureName = "thumb_" + subfix + index.ToString("000") + ".png";
+            
+        File.WriteAllBytes( textureLocation + textureName, text2d.EncodeToPNG());
+            
+        return AssetDatabase.LoadAssetAtPath<Texture2D>(textureLocation + textureName );
+    }
+
+
     private void FitCameraToObject(GameObject go)
     {
         MeshRenderer meshRendererer = go.GetComponent<MeshRenderer>();
         
-        float screenRatio = 1f;
-        
-        meshRendererer.transform.position = new Vector3(camera.transform.position.x, camera.transform.position.y, meshRendererer.bounds.center.z);
+        camera.transform.position = new Vector3(meshRendererer.bounds.center.x, meshRendererer.bounds.center.y, meshRendererer.transform.position.z - 3f);
         //meshRendererer.transform.position += meshRendererer.bounds.center;
-        
-        float targetRatio = meshRendererer.bounds.size.x / meshRendererer.bounds.size.y;
- 
-        if (screenRatio >= targetRatio)
-        {
-            Camera.main.orthographicSize = meshRendererer.bounds.size.y / 2;
-        }
-        else
-        {
-            float differenceInSize = targetRatio / screenRatio;
-            Camera.main.orthographicSize = meshRendererer.bounds.size.y / 2 * differenceInSize;
-        }
- 
-        transform.position = new Vector3(meshRendererer.bounds.center.x, meshRendererer.bounds.center.y, -1f);
+
+        float biggerSide = Mathf.Max(meshRendererer.bounds.size.x, meshRendererer.bounds.size.y);
+        camera.orthographicSize = biggerSide/ 2;
     }
 }
