@@ -52,8 +52,18 @@ public class OPB_UI_SkinEditor : MonoBehaviour
         if(name == "Items")
         {
             List<Mesh> items = new List<Mesh>();
-            if (selected_part == "Head") items = skinsData.Meshes_ArmorHead;
-            if (selected_part == "Hips") items = skinsData.Meshes_ArmorHips;
+            List<Texture2D> itemsThumbs = new List<Texture2D>();
+
+            if (selected_part == "Head")
+            {
+                items = skinsData.Meshes_ArmorHead;
+                itemsThumbs = skinsData.Meshes_ArmorHead_Thumbs;
+            }
+            else if (selected_part == "Hips")
+            {
+                items = skinsData.Meshes_ArmorHips;
+                itemsThumbs = skinsData.Meshes_ArmorHips_Thumbs;
+            }
             
             foreach(Mesh item in items)
             {
@@ -61,6 +71,11 @@ public class OPB_UI_SkinEditor : MonoBehaviour
                 btn.name = "Btn_Item_" + i;
                 int index = i;
                 btn.GetComponent<Button>().onClick.AddListener(() => OnClick_Selected_ItemIndex(index));
+
+
+
+                btn.GetComponent<RawImage>().texture = itemsThumbs[i];
+                
                 i++;
             }
         }   
