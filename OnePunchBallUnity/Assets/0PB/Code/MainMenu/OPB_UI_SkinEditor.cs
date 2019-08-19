@@ -3,30 +3,37 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEditor;
 
 public class OPB_UI_SkinEditor : MonoBehaviour
 {
     [SerializeField]
     private OPB_UI_PlayerSkinModel skinModel;
+    
     [SerializeField]
     private OPB_PlayerSkins_Data skinsData;
+    
     [SerializeField]
     private Transform buttons_transform;
+    
     [SerializeField]
     private GameObject prefab_categoryBtn;
+    
     [SerializeField]
     private GameObject prefab_itemBtn;
+    
     [SerializeField]
     private OPB_ColorSelection_Button prefab_ColorBtn;
+    
     [SerializeField]
     private Transform categories_transform;
+    
     [SerializeField]
     private string selected_part = "";
+    
     [SerializeField]
     private string selected_category = "";
-
-
-
+    
     public void DrawSlots(string name)
     {
         int i = 0;
@@ -41,6 +48,7 @@ public class OPB_UI_SkinEditor : MonoBehaviour
                 i++;
             }
         }
+        
         if(name == "Items")
         {
             List<Mesh> items = new List<Mesh>();
@@ -55,9 +63,9 @@ public class OPB_UI_SkinEditor : MonoBehaviour
                 btn.GetComponent<Button>().onClick.AddListener(() => OnClick_Selected_ItemIndex(index));
                 i++;
             }
-          
         }   
     }
+    
     void CreateCategoryBtn(string name)
     {
         GameObject btn = Instantiate(prefab_categoryBtn, categories_transform);
@@ -75,27 +83,31 @@ public class OPB_UI_SkinEditor : MonoBehaviour
     }
     public void OnClick_Selected_ColorIndex(int colorIndex)
     {
-        if(selected_part == "Head") skinModel.SelectIndex_ArmorHead_Color(colorIndex);
+        if (selected_part == "Head") skinModel.SelectIndex_ArmorHead_Color(colorIndex);
         if (selected_part == "Hips") skinModel.SelectIndex_ArmorHips_Color(colorIndex);
         if (selected_part == "Body") skinModel.SelectIndex_BodySkin_Color(colorIndex);
 
         PlayerPrefs.SetInt("Mesh_Armor"+ selected_part +"_Color", colorIndex);
     }
+    
     public void OnClick_SetCategory(string name)
     {
         selected_category = name;
         if (name == "Colors") DrawSlots("Colors");
         if (name == "Type") DrawSlots("Items");
     }
+    
     void ClearList(GameObject list)
     {
         foreach (Transform child in list.transform) { Destroy(child.gameObject); }
     }
+    
     public void OnClick_SetPart(string name)
     {
         selected_part = name;
         GameObject.Find("Btn_" + selected_part).GetComponent<Button>().Select();
         ClearList(categories_transform.gameObject);
+        
         if(name == "Body")
         {
             CreateCategoryBtn("Colors");
@@ -111,8 +123,6 @@ public class OPB_UI_SkinEditor : MonoBehaviour
 
     public void Start()
     {
-
         OnClick_SetPart("Head");
     }
-
 }

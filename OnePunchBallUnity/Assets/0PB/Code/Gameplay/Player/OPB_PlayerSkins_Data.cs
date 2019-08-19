@@ -10,5 +10,4 @@ public class OPB_PlayerSkins_Data : ScriptableObject
     public List<Color> ColorsPalette;
 
     public List<Material> SkinMaterialColors;
-
 }

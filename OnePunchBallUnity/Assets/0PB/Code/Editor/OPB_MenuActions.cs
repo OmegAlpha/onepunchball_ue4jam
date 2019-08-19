@@ -5,20 +5,17 @@ using UnityEngine;
 
 public class OPB_MenuActions 
 {
+    [InitializeOnLoadMethod]
     [MenuItem("OPB/Generate Data")]
     public static void GenerateData()
     {
-        
 		// Generate Player Skins Data
         // -> search for all the related skins meshes and populate the PlayerSkinsData ScriptableObject
-
-        
         string[] guids_PlayerSkinsData = AssetDatabase.FindAssets("t:OPB_PlayerSkins_Data", new[] {"Assets/0PB/0Data"});
         
         OPB_PlayerSkins_Data playerSkinsData = AssetDatabase.LoadAssetAtPath<OPB_PlayerSkins_Data>(AssetDatabase.GUIDToAssetPath(guids_PlayerSkinsData[0]));
         playerSkinsData.Meshes_ArmorHead.Clear();
         playerSkinsData.Meshes_ArmorHips.Clear();
-        
         
         // Find all Texture2Ds that have 'co' in their filename, that are labelled with 'architecture' and are placed in 'MyAwesomeProps' folder
         string[] guids_SkinsHead = AssetDatabase.FindAssets("t:Mesh", new[] {"Assets/0PB/Art/Characters/Accessories/Head"});
@@ -39,7 +36,6 @@ public class OPB_MenuActions
             playerSkinsData.Meshes_ArmorHips.Add(loadedMesh);
         }
         
-        
         string[] guids_SkinColorMaterials = AssetDatabase.FindAssets("t:Material", new[] {"Assets/0PB/0Data/SkinMaterialColors"});
 
         playerSkinsData.SkinMaterialColors.Clear();
@@ -54,6 +50,5 @@ public class OPB_MenuActions
             
             i++;
         }
-        
     }
 }

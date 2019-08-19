@@ -148,8 +148,6 @@ public class OPB_PlayerController : Bolt.EntityEventListener<IOPB_PlayerState>
                 charController.Move(movement);
             }
 
-            
-
             if (BoltNetwork.IsClient)
             {
                 state.ServerPing = BoltNetwork.Server.PingAliased;
@@ -172,8 +170,6 @@ public class OPB_PlayerController : Bolt.EntityEventListener<IOPB_PlayerState>
                 evt.ShootDirection = targetPos;
                 evt.Send();
             }
-            
-            
         }
     }
 
@@ -206,9 +202,7 @@ public class OPB_PlayerController : Bolt.EntityEventListener<IOPB_PlayerState>
                 OPB_CameraSettings.Instance.state.FOV = playerCamera.fieldOfView;
                 OPB_CameraSettings.Instance.state.LocalPos = playerCamera.transform.localPosition;
                 OPB_CameraSettings.Instance.state.LocalEuler = playerCamera.transform.localEulerAngles;
-
             }
-            
         }
         else
         {
@@ -219,12 +213,7 @@ public class OPB_PlayerController : Bolt.EntityEventListener<IOPB_PlayerState>
                 playerCamera.transform.localEulerAngles = OPB_CameraSettings.Instance.state.LocalEuler;
             }
         }
-        
-        
     }
-    
-    
-    
 
     public void StartRound()
     {
@@ -261,9 +250,7 @@ public class OPB_PlayerController : Bolt.EntityEventListener<IOPB_PlayerState>
     
     private void StartRound_ClientNotOwner()
     {
-        
     }
-
 
     private void GiveNewBall()
     {
@@ -274,7 +261,6 @@ public class OPB_PlayerController : Bolt.EntityEventListener<IOPB_PlayerState>
             
             ballInHand = newBall.GetComponent<OPB_KillerBall>();
             ballInHand.Initialize(this);
-            
         }
     }
 

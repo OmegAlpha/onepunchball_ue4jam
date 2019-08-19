@@ -4,15 +4,32 @@ using UnityEngine;
 
 public class OPB_UI_RotateCharacter : MonoBehaviour
 {
-
     [SerializeField]
     private Camera cam;
+    
     [SerializeField]
     private float speed;
+    
     private Vector3 contact_point;
+    
     private bool can_rotate = false;
 
+    private int rotateDirection = 0;
+    
     void Update()
+    {
+        rotateDirection = 0;
+        
+        DoMouseRotationCheck();
+        DoJoystickRotationCheck();
+        
+        if (rotateDirection != 0)
+        {
+            transform.Rotate(0, rotateDirection * speed, 0, Space.Self);
+        }
+    }
+
+    private void DoMouseRotationCheck()
     {
         if (Input.GetButtonDown("Fire1"))
         {
@@ -28,17 +45,22 @@ public class OPB_UI_RotateCharacter : MonoBehaviour
                 }
             }
         }
-        if (Input.GetButtonUp("Fire1"))
+        else if (Input.GetButtonUp("Fire1"))
         {
             can_rotate = false;
         }
-        if (Input.GetButton("Fire1"))
+        
+        if (can_rotate)
         {
-            if(Vector3.Distance(contact_point, Input.mousePosition) > 50 && can_rotate)
+            if(Vector3.Distance(contact_point, Input.mousePosition) > 50)
             {
-                float dir = (contact_point.x - Input.mousePosition.x) > 0 ? 1 : -1;
-                this.transform.Rotate(0, dir * speed, 0, Space.Self);
+                rotateDirection = (contact_point.x - Input.mousePosition.x) > 0 ? 1 : -1;
             }
         }
     }
+
+    private void DoJoystickRotationCheck()
+    {
+    }
+
 }
