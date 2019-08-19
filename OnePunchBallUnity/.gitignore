@@ -9,6 +9,7 @@ Builds
 Bolt_DebugStart_Build
 TestResults
 obj
+.vs
 .vs/UnityProject/v14/.suo
 .vs/config
 *.csproj

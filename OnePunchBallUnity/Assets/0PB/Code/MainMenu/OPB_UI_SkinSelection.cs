@@ -36,7 +36,6 @@ public class OPB_UI_SkinSelection : MonoBehaviour
         OPB_LocalUserInfo.index_BodySkin_Color = PlayerPrefs.GetInt("BodySkin_Color", 0);
         
         skinModel.SelectIndex_ArmorHead(OPB_LocalUserInfo.index_Mesh_ArmorHead);
-        skinModel.SelectIndex_ArmorHead_Color(OPB_LocalUserInfo.index_Mesh_ArmorHead_Color);
         
         skinModel.SelectIndex_ArmorHips(OPB_LocalUserInfo.index_Mesh_ArmorHips);
         skinModel.SelectIndex_ArmorHips_Color(OPB_LocalUserInfo.index_Mesh_ArmorHips_Color);
