@@ -44,6 +44,8 @@ public class OPB_PlayerController : Bolt.EntityEventListener<IOPB_PlayerState>
     private OPB_KillerBall ballInHand;
 
     public bool Debug_OverrideCameraPosition;
+
+    private bool inputIsEnabled = true;
     
     public override void Attached()
     {
@@ -71,6 +73,8 @@ public class OPB_PlayerController : Bolt.EntityEventListener<IOPB_PlayerState>
             state.CanMove = true;
             state.UserName = OPB_LocalUserInfo.UserName;
             state.SkinString = OPB_LocalUserInfo.GetSkinString();
+            
+            OPB_UI_ChatPanel.Get().Initialize();
         }
 
         if (!entity.IsOwner && !BoltNetwork.IsServer)
@@ -92,6 +96,11 @@ public class OPB_PlayerController : Bolt.EntityEventListener<IOPB_PlayerState>
     private void OnStateChanged_IsAlive()
     {
         
+    }
+
+    public void ToggleInputEnabled(bool isEnabled)
+    {
+        inputIsEnabled = isEnabled;
     }
 
     // USED: SERVER / CLIENT
@@ -119,24 +128,27 @@ public class OPB_PlayerController : Bolt.EntityEventListener<IOPB_PlayerState>
             Vector3 movement = Vector3.zero;
 
 
-            movement.z = Input.GetAxis("Vertical");
-            movement.x = Input.GetAxis("Horizontal");
-        
-            movement = (movement.normalized * speed * BoltNetwork.FrameDeltaTime);
-        
-            if (movement != Vector3.zero)
+            // TODO: MOVE this to input control
+
+            if (inputIsEnabled)
             {
-                // transform.position = transform.position + movement;
+                movement.z = Input.GetAxis("Vertical");
+                movement.x = Input.GetAxis("Horizontal");
+                movement = (movement.normalized * speed * BoltNetwork.FrameDeltaTime);    
             }
-        
-            transform.position = new Vector3(transform.position.x, 0.6f, transform.position.z); 
-        
-            charMesh.transform.LookAt(transform.position + movement);
-            charMesh.transform.eulerAngles = new Vector3(0, charMesh.transform.eulerAngles.y, 0);
 
-            state.yRotation = charMesh.transform.eulerAngles.y;
+            if (movement.magnitude > 0)
+            {
+                transform.position = new Vector3(transform.position.x, 0.6f, transform.position.z); 
+        
+                charMesh.transform.LookAt(transform.position + movement);
+                charMesh.transform.eulerAngles = new Vector3(0, charMesh.transform.eulerAngles.y, 0);
 
-            charController.Move(movement);
+                state.yRotation = charMesh.transform.eulerAngles.y;
+                charController.Move(movement);
+            }
+
+            
 
             if (BoltNetwork.IsClient)
             {
@@ -144,7 +156,8 @@ public class OPB_PlayerController : Bolt.EntityEventListener<IOPB_PlayerState>
             }
         }
         
-        if (Input.GetMouseButtonDown(0))
+        // TODO: move this to input ocontrol
+        if (Input.GetMouseButtonDown(0) && inputIsEnabled)
         {
             RaycastHit hit;
             Ray ray = playerCameraObject.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
