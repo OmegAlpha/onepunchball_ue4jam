@@ -38,6 +38,32 @@ MonoBehaviour:
   - {fileID: 6984088965767800921, guid: a31d9c98ab8de5d4282fb4feab0572f9, type: 3}
   - {fileID: -8832312659721980211, guid: 345195ae3282c794f8c84ea12433d31e, type: 3}
   - {fileID: -9077344921370823647, guid: 567e54abccbec9e4e8aa891e41be488b, type: 3}
+  Meshes_ArmorHead_Thumbs:
+  - {fileID: 2800000, guid: 12cfd274a344a114c84ab4c751873bab, type: 3}
+  - {fileID: 2800000, guid: 1f7321930ed254f42b260c90c223129c, type: 3}
+  - {fileID: 2800000, guid: fd2a749449b26d548b05427d64ae7b98, type: 3}
+  - {fileID: 2800000, guid: ba091f4f64fd00a41be3cf6e7169523e, type: 3}
+  - {fileID: 2800000, guid: e17bad24b0bce034a8e34cffa92cfbf7, type: 3}
+  - {fileID: 2800000, guid: fe155fac078985b4eb96446c788fc98f, type: 3}
+  - {fileID: 2800000, guid: 04294f722c498d740a9591ce7a65dc6b, type: 3}
+  - {fileID: 2800000, guid: b4ac3c43a049c7149a9da2bcf684ea75, type: 3}
+  - {fileID: 2800000, guid: 073c46b259bccaf4a9336b39cd6d4b28, type: 3}
+  - {fileID: 2800000, guid: 26937fcd875c36f4fa1d43e38a7c3356, type: 3}
+  - {fileID: 2800000, guid: fdfa6df032053974fb4d76189646f980, type: 3}
+  - {fileID: 2800000, guid: 460db7ded2d4d194aaee7e7b58237350, type: 3}
+  - {fileID: 2800000, guid: d79e9b6395cc8894f802cda0260db57d, type: 3}
+  - {fileID: 2800000, guid: b42496ba0c3f3274686e732584d5fa43, type: 3}
+  - {fileID: 2800000, guid: 092721f6eecb0a74b989f67342f45de0, type: 3}
+  - {fileID: 2800000, guid: bee98f995721ac14490da909454de569, type: 3}
+  - {fileID: 2800000, guid: aacb936f0312a294fbe84e0af4190f97, type: 3}
+  - {fileID: 2800000, guid: 9d60903ce8db7074fa4ea5c0bce72837, type: 3}
+  - {fileID: 2800000, guid: 31b952e88ae92e244966cc0b67df1068, type: 3}
+  - {fileID: 2800000, guid: 21b4d1d5978d71f459406e79833ab212, type: 3}
+  - {fileID: 2800000, guid: a256317f264d6384d8f4f202d521ad63, type: 3}
+  - {fileID: 2800000, guid: bec2bf73c89549949a75ad1a119b4b10, type: 3}
+  - {fileID: 2800000, guid: 0bf7e70aa8901f74ab4c141b43e59060, type: 3}
+  - {fileID: 2800000, guid: a70d4195c9e896c43bebb3cd1c478b6b, type: 3}
+  - {fileID: 2800000, guid: 675da4909d24da649b751b6491674b65, type: 3}
   Meshes_ArmorHips:
   - {fileID: -4101298594492280764, guid: 0a358260471bab64bb04036c70f9e543, type: 3}
   - {fileID: 5426431015549061269, guid: a824ac2fbde5a7440bfeac20c338380c, type: 3}
@@ -50,6 +76,18 @@ MonoBehaviour:
   - {fileID: -3728404524187730504, guid: cc8b3a6266ae617438c3c74ad5296c6e, type: 3}
   - {fileID: 2346199836219352998, guid: 8ed5b23e287aa674fae796dcf7cf4d55, type: 3}
   - {fileID: 594494127608747363, guid: ce26ee824499f8f498ae946016b44735, type: 3}
+  Meshes_ArmorHips_Thumbs:
+  - {fileID: 2800000, guid: 674f5569db032c74baf3e57c5ff6e998, type: 3}
+  - {fileID: 2800000, guid: 2f34c5eba5113da4bb3b2d734d924cf8, type: 3}
+  - {fileID: 2800000, guid: e2714ec06b0059f48a209eddc6c3aec8, type: 3}
+  - {fileID: 2800000, guid: e839d5e323d0fad43a58329414d5d516, type: 3}
+  - {fileID: 2800000, guid: b147ab4e396479e4b9f6789669a62d65, type: 3}
+  - {fileID: 2800000, guid: c0e0f636f3fde92488c058f075be866c, type: 3}
+  - {fileID: 2800000, guid: 2ee4b1d87a6c23747b6f365692de619f, type: 3}
+  - {fileID: 2800000, guid: 127deb26e6fd71745b1c26b41cc019b4, type: 3}
+  - {fileID: 2800000, guid: 95a543d60e989d84896a795786898e1d, type: 3}
+  - {fileID: 2800000, guid: b94540c69abc3234d9e8a461f2c04d57, type: 3}
+  - {fileID: 2800000, guid: 3722687eefb80e741a2df07f4f5fe14c, type: 3}
   ColorsPalette:
   - {r: 1, g: 0.6650944, b: 0.77284664, a: 1}
   - {r: 1, g: 0.18396229, b: 0.8151266, a: 1}
@@ -66,6 +104,7 @@ MonoBehaviour:
   - {r: 0.2815386, g: 0.18569775, b: 0.3679245, a: 1}
   - {r: 0.4433962, g: 0.4433962, b: 0.4433962, a: 1}
   - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0, g: 0, b: 0, a: 1}
   SkinMaterialColors:
   - {fileID: 2100000, guid: 6bba813bbae922d4b9f9588c61df1b63, type: 2}
   - {fileID: 2100000, guid: 09da244e7ca6f3743aa5c3fd05fd88e5, type: 2}
