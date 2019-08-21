@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8078fb5ca219c34ea80805fec36beae, type: 3}
   m_Name: ChatSettingsFile
   m_EditorClassIdentifier: 
-  AppId: 070f5d81-5f0d-41a6-bfea-81a350b0464c
+  AppId: 46063c57-36b7-4639-8ca6-e426fec46656
   WizardDone: 1

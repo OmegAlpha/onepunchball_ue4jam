@@ -3,6 +3,7 @@
  using Photon.Chat;
  using TMPro;
  using UnityEngine;
+ using UnityEngine.UI;
 
 public class OPB_UI_ChatPanel : MonoSingleton<OPB_UI_ChatPanel>, IChatClientListener
 {
@@ -11,6 +12,9 @@ public class OPB_UI_ChatPanel : MonoSingleton<OPB_UI_ChatPanel>, IChatClientList
     
     [SerializeField]
     private GameObject txtConnectingToChat;
+    
+    [SerializeField]
+    private Text txtChat;
     
     public ChatClient chatClient;
 
@@ -26,18 +30,19 @@ public class OPB_UI_ChatPanel : MonoSingleton<OPB_UI_ChatPanel>, IChatClientList
         
         txtConnectingToChat.gameObject.SetActive(true);
         txtInput_Chat.gameObject.SetActive(false);
+
+        txtChat.supportRichText = true;
+        txtChat.text = "";
     }
 
     public void Initialize()
     {
         chatClient = new ChatClient(this);
         chatClient.ChatRegion = "US";
-        var authValues = new AuthenticationValues();
-        authValues.AuthType = CustomAuthenticationType.None;
-        authValues.UserId = OPB_PlayerController.LocalInstance.state.UserName;
+        var authValues = new AuthenticationValues(OPB_LocalUserInfo.UserName);
 
         //TODO: put the id in some other placer or check if Bolt has an access to this
-        chatClient.Connect("070f5d81-5f0d-41a6-bfea-81a350b0464c", "1.0", authValues);
+        chatClient.Connect(ChatSettings.Instance.AppId, "1.0", authValues);
 
         DeactivateDoChat();
     }
@@ -98,8 +103,6 @@ public class OPB_UI_ChatPanel : MonoSingleton<OPB_UI_ChatPanel>, IChatClientList
         txtConnectingToChat.gameObject.SetActive(false);
         txtInput_Chat.gameObject.SetActive(true);
         
-        Debug.LogError("connected => " + chatClient.State);
-
         chatClient.Subscribe("gamechannel");
     }
 
@@ -113,9 +116,16 @@ public class OPB_UI_ChatPanel : MonoSingleton<OPB_UI_ChatPanel>, IChatClientList
         for ( int i = 0; i < senders.Length; i++ )
         {
             msgs = string.Format("{0}{1}={2}, ", msgs, senders[i], messages[i]);
+
+            /// txtChat.text = "<color=blue>" + senders[i] + "</color> " + messages[i];
         }
         
-        Debug.LogError( string.Format("OnGetMessages: {0} ({1}) > {2}", channelName, senders.Length, msgs) );
+        ChatChannel channel = null;
+        bool found = this.chatClient.TryGetChannel(channelName, out channel);
+        if (found)
+        {
+            txtChat.text = channel.ToStringMessages();
+        }
     }
 
     public void OnPrivateMessage(string sender, object message, string channelName)
@@ -125,11 +135,6 @@ public class OPB_UI_ChatPanel : MonoSingleton<OPB_UI_ChatPanel>, IChatClientList
 
     public void OnSubscribed(string[] channels, bool[] results)
     {
-        Debug.LogError("subscribed");
-        foreach (var result in results)
-        {
-            Debug.LogError(result);
-        }
     }
 
     public void OnUnsubscribed(string[] channels)

@@ -2,7 +2,7 @@
 //TODO: do a proper class, encapsulating the playerpref or remote save/load, etc etc 
 public static class OPB_LocalUserInfo
 {
-    public static string UserName;
+    public static string UserName = "NoName";
     public static int index_Mesh_ArmorHead;
     public static int index_Mesh_ArmorHead_Color;
     
