@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class OPB_MenuActions 
 {
+    [InitializeOnLoadMethod]
     [MenuItem("OPB/Generate Data")]
     public static void GenerateData()
     {
@@ -55,7 +56,7 @@ public class OPB_MenuActions
         OPB_ThumbsCreator thumbsCreatorAsset = AssetDatabase.LoadAssetAtPath<OPB_ThumbsCreator>("Assets/0PB/Prefabs/Tools/ThumbsCreator.prefab");
 
         OPB_ThumbsCreator thumbsCreator = GameObject.Instantiate(thumbsCreatorAsset, Vector3.one * 1000f, Quaternion.identity);
-        thumbsCreator.CreateTextures();
+        thumbsCreator.CreateTextures(true);
         GameObject.DestroyImmediate(thumbsCreator.gameObject);
     }
 }

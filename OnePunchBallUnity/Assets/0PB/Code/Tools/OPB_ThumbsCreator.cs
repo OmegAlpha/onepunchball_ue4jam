@@ -5,6 +5,8 @@ using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
+
 public class OPB_ThumbsCreator : MonoBehaviour
 {
     [SerializeField]
@@ -20,8 +22,11 @@ public class OPB_ThumbsCreator : MonoBehaviour
     private MeshFilter meshFilter;
     
     [Button("Create")]
-    public void CreateTextures()
+    public void CreateTextures(bool autoRun = false)
     {
+        if(!Application.isPlaying || EditorApplication.isPlayingOrWillChangePlaymode)
+            return;
+        
         var prevRT = RenderTexture.active;
         
         skinsData.Meshes_ArmorHead_Thumbs.Clear();
@@ -87,3 +92,5 @@ public class OPB_ThumbsCreator : MonoBehaviour
         camera.orthographicSize = biggerSide/ 2;
     }
 }
+
+#endif

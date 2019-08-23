@@ -11,6 +11,9 @@ public class OPB_UI_ChatPanel : MonoSingleton<OPB_UI_ChatPanel>, IChatClientList
     private TMP_InputField txtInput_Chat;
     
     [SerializeField]
+    private ScrollRect scrollRectChat;
+    
+    [SerializeField]
     private GameObject txtConnectingToChat;
     
     [SerializeField]
@@ -117,7 +120,7 @@ public class OPB_UI_ChatPanel : MonoSingleton<OPB_UI_ChatPanel>, IChatClientList
         {
             msgs = string.Format("{0}{1}={2}, ", msgs, senders[i], messages[i]);
 
-            /// txtChat.text = "<color=blue>" + senders[i] + "</color> " + messages[i];
+            // txtChat.text += "<color=blue>" + senders[i] + "</color> " + messages[i] + "\n";
         }
         
         ChatChannel channel = null;
