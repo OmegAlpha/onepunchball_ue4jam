@@ -12,11 +12,6 @@ public class OPB_KillerBallReboundSensor : MonoBehaviour
         ball = GetComponentInParent<OPB_KillerBall>();
     }
 
-    private void OnTriggerEnter(Collider collider)
-    {
-        
-    }
-
     private void Update()
     {
         if(! BoltNetwork.IsServer)
@@ -26,23 +21,30 @@ public class OPB_KillerBallReboundSensor : MonoBehaviour
         
         int lowerAngle = 9999;
         Vector3 resultantReflection = Vector3.zero;
+
+        Vector3 castOrigin = transform.position - ball.MovementDirection;
         
         for (int i = -11; i < 11; i++)
         {
-            Quaternion spreadAngle = Quaternion.AngleAxis(i * 5, Vector3.up);
+            Quaternion spreadAngle = Quaternion.AngleAxis(i * 1, Vector3.up);
             Vector3 rayDirection = spreadAngle * ball.MovementDirection;
-            Vector3 rayEndPos = transform.position + rayDirection * sphereRadius;
+            Vector3 rayEndPos = castOrigin + rayDirection * sphereRadius;
             
-            Debug.DrawLine(transform.position, rayEndPos, Color.blue);
+            Debug.DrawLine(castOrigin, rayEndPos, Color.blue);
                 
             if(i != 0)
                 continue;
             
             if (Math.Abs(i) < lowerAngle)
             {
-                RaycastHit hitInfo;
-                if (Physics.Raycast(transform.position, rayDirection, out hitInfo, sphereRadius * 1.3f))
+
+                RaycastHit[] hitInfos = Physics.RaycastAll(castOrigin, rayDirection, sphereRadius * 3f);
+                
+                for(int j = 0; j < hitInfos.Length; j++)
                 {
+                    RaycastHit hitInfo = hitInfos[j];
+                    
+                    
                     // TODO: use layer mask in the raycast intead of this shit
                     if(hitInfo.collider.gameObject == gameObject || hitInfo.collider.gameObject.layer == LayerMask.NameToLayer("BallSensor") 
                                                                  || hitInfo.collider.gameObject.layer == LayerMask.NameToLayer("Player"))

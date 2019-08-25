@@ -1,11 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using Sirenix.OdinInspector;
-using UnityEditor;
-using UnityEngine;
 
 #if UNITY_EDITOR
+using UnityEditor;
+#endif
+
+using UnityEngine;
 
 public class OPB_ThumbsCreator : MonoBehaviour
 {
@@ -21,6 +21,7 @@ public class OPB_ThumbsCreator : MonoBehaviour
     [SerializeField]
     private MeshFilter meshFilter;
     
+#if UNITY_EDITOR
     [Button("Create")]
     public void CreateTextures(bool autoRun = false)
     {
@@ -91,6 +92,7 @@ public class OPB_ThumbsCreator : MonoBehaviour
         float biggerSide = Mathf.Max(meshRendererer.bounds.size.x, meshRendererer.bounds.size.y);
         camera.orthographicSize = biggerSide/ 2;
     }
+#endif    
 }
 
-#endif
+

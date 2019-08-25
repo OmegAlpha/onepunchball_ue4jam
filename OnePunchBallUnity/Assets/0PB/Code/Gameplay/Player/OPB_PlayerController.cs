@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Numerics;
+﻿
+using System.Collections;
+using System.Linq;
 using Bolt;
-using JetBrains.Annotations;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Quaternion = UnityEngine.Quaternion;
 using Vector3 = UnityEngine.Vector3;
 
@@ -28,6 +27,10 @@ public class OPB_PlayerController : Bolt.EntityEventListener<IOPB_PlayerState>
     private Camera playerCamera;
     
     [SerializeField]
+    private Transform tCameraWinnerPointer;
+    public Transform TCameraWinnerPointer => tCameraWinnerPointer;
+    
+    [SerializeField]
     private TextMeshPro txtPlayerName;
 
     [SerializeField]
@@ -38,6 +41,9 @@ public class OPB_PlayerController : Bolt.EntityEventListener<IOPB_PlayerState>
     
     [SerializeField]
     private Transform tHandPosition;
+    
+    [SerializeField]
+    private LayerMask maskMouseInputRay;
 
     public Transform THandPosition => tHandPosition;
 
@@ -47,9 +53,15 @@ public class OPB_PlayerController : Bolt.EntityEventListener<IOPB_PlayerState>
 
     private bool inputIsEnabled = true;
     
+    
+    
     public override void Attached()
     {
+        OPB_Bolt_GlobalEventsListener.OnSetFinished.AddListener(OnSetFinished);
+        
         playerCamera = playerCameraObject.GetComponent<Camera>();
+        
+        tCameraWinnerPointer.SetParent(charMesh.transform);
         
         state.SetTransforms(state.PlayerTransform, transform);
         
@@ -86,8 +98,8 @@ public class OPB_PlayerController : Bolt.EntityEventListener<IOPB_PlayerState>
         state.AddCallback("SkinString", OnStateChange_SkinString);
     }
 
-    
-    
+
+
     private void OnStateChange_SkinString()
     {
         skinModel.ApplyFromSkinString(state.SkinString);
@@ -139,12 +151,18 @@ public class OPB_PlayerController : Bolt.EntityEventListener<IOPB_PlayerState>
 
             if (movement.magnitude > 0)
             {
-                transform.position = new Vector3(transform.position.x, 0.6f, transform.position.z); 
-        
+                transform.position = new Vector3(transform.position.x, 0.6f, transform.position.z);
+
                 charMesh.transform.LookAt(transform.position + movement);
                 charMesh.transform.eulerAngles = new Vector3(0, charMesh.transform.eulerAngles.y, 0);
 
-                state.yRotation = charMesh.transform.eulerAngles.y;
+                float yRotation = charMesh.transform.eulerAngles.y;
+                if (yRotation < 0)
+                    yRotation += 360f;
+
+                yRotation /= 360f;
+                
+                state.yRotation =  yRotation;
                 charController.Move(movement);
             }
 
@@ -154,31 +172,44 @@ public class OPB_PlayerController : Bolt.EntityEventListener<IOPB_PlayerState>
             }
         }
         
-        // TODO: move this to input ocontrol
-        if (Input.GetMouseButtonDown(0) && inputIsEnabled)
-        {
-            RaycastHit hit;
-            Ray ray = playerCameraObject.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
         
-            if (Physics.Raycast(ray, out hit))
-            {
-                OPB_OnPlayerShoot evt = OPB_OnPlayerShoot.Create(entity, EntityTargets.Everyone);
-
-                Vector3 targetPos = hit.point;
-                targetPos.y = 2.6f;
-
-                evt.ShootDirection = targetPos;
-                evt.Send();
-            }
-        }
     }
+
 
     private void Update()
     {
+//
+//        if (Input.GetKeyDown(KeyCode.O))
+//        {
+//            StartCoroutine(ShowWinnerCamera(entity.NetworkId));
+//        }
+
         //TODO: check how simulate proxy works instead of doing this
         if (!entity.IsOwner)
         {
-            charMesh.transform.eulerAngles = new Vector3(0, state.yRotation, 0); 
+            charMesh.transform.eulerAngles = new Vector3(0, state.yRotation * 360f, 0); 
+        }
+        else
+        {
+            // TODO: move this to input control
+            if (Input.GetMouseButtonDown(0) && inputIsEnabled)
+            {
+                RaycastHit hit;
+                Ray ray = playerCameraObject.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
+        
+                if (Physics.Raycast(ray, out hit, maskMouseInputRay ))
+                {
+                    OPB_OnPlayerShoot evt = OPB_OnPlayerShoot.Create(entity, EntityTargets.Everyone);
+
+                    Vector3 targetPos = hit.point;
+                    targetPos.y = 2.6f;
+
+                    Debug.Log("[Simulater Owner] RayCast Worked and Hit Detected. Send Event");
+                
+                    evt.ShootDirection = targetPos;
+                    evt.Send();
+                }
+            }
         }
         
         if(state.IsAlive)
@@ -195,6 +226,7 @@ public class OPB_PlayerController : Bolt.EntityEventListener<IOPB_PlayerState>
         
         txtPlayerName.text = state.Score.ToString() + "-" + state.UserName;
 
+        /*  --- JUST FOR TESTING THE CAMERA, BUT IT BREAKS THE WINNER CAMERA --------
         if (BoltNetwork.IsServer)
         {
             if (OPB_CameraSettings.Instance != null && entity.IsOwner)
@@ -212,9 +244,62 @@ public class OPB_PlayerController : Bolt.EntityEventListener<IOPB_PlayerState>
                 playerCamera.transform.localPosition = OPB_CameraSettings.Instance.state.LocalPos;
                 playerCamera.transform.localEulerAngles = OPB_CameraSettings.Instance.state.LocalEuler;
             }
-        }
+        }*/
     }
 
+    
+    
+    private IEnumerator ShowWinnerCamera(NetworkId winnerID)
+    {
+        if (entity.IsOwner)
+        {
+            state.CanMove = false;
+        }
+
+        Transform targetTransform = OPB_GlobalAccessors.ConnectedPlayers.Find(p => p.entity.NetworkId == winnerID).TCameraWinnerPointer;
+        
+        Vector3 originalLocalPosition = playerCamera.transform.localPosition.GetClone();
+        Vector3 originalLocalEulers = playerCamera.transform.localEulerAngles.GetClone();
+        
+        
+        playerCamera.transform.DOMove(targetTransform.position, 1f);
+        playerCamera.transform.DORotate(targetTransform.eulerAngles, 1f);
+        
+        yield return new WaitForSeconds(0.5f);
+        
+        OPB_SoundsManager.Get().PlaySFX_Winner();
+        
+        yield return new WaitForSeconds(2.5f);
+        
+        playerCamera.transform.DOLocalMove(originalLocalPosition, 0.5f);
+        playerCamera.transform.DOLocalRotate(originalLocalEulers, 0.5f);
+        
+        yield return new WaitForSeconds(1.5f);
+        
+        if (entity.IsOwner)
+        {
+            state.CanMove = true;
+        }
+    }
+    
+    
+    private void OnSetFinished(NetworkId winnerID)
+    {
+        if (entity.IsOwner)
+        {
+            StartCoroutine(ShowWinnerCamera(winnerID));
+            
+            ToggleInputEnabled(false);
+        }
+
+        state.Score = 0;
+
+        if (entity.NetworkId == winnerID)
+        {
+            state.SetsWon++;
+        }
+    }
+    
     public void StartRound()
     {
         if (BoltNetwork.IsServer)
@@ -227,7 +312,7 @@ public class OPB_PlayerController : Bolt.EntityEventListener<IOPB_PlayerState>
         else
             StartRound_ClientNotOwner();
     }
-
+    
     public void EndRound()
     {
         if (entity.IsOwner)
@@ -246,6 +331,7 @@ public class OPB_PlayerController : Bolt.EntityEventListener<IOPB_PlayerState>
     {
         state.IsAlive = true;
         state.CanMove = true;
+        ToggleInputEnabled(true);
     }
     
     private void StartRound_ClientNotOwner()
@@ -269,11 +355,16 @@ public class OPB_PlayerController : Bolt.EntityEventListener<IOPB_PlayerState>
     {
         state.IsAlive = false;
         state.CanMove = false;
+        
+        OPB_SoundsManager.Get().PlaySFX_Death();
     }
 
     public override void OnEvent(OPB_OnPlayerScoreChanged evt)
     {
         state.Score += evt.IsIncrement ? +1 : -1;
+        
+        if(evt.IsIncrement)
+            OPB_SoundsManager.Get().PlaySFX_Point();
     }
 
     // ONLY SERVER 
@@ -289,6 +380,10 @@ public class OPB_PlayerController : Bolt.EntityEventListener<IOPB_PlayerState>
             
             Vector3 ShootDirecton = (targetPos - transform.position).normalized;
             ballInHand.Shoot(ShootDirecton);
+
+            ballInHand = null;
+            
+            OPB_SoundsManager.Get().PlaySFX_Woosh();
         }
     }
 

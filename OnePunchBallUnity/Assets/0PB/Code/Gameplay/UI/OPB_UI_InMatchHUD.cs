@@ -41,10 +41,14 @@ public class OPB_UI_InMatchHUD : MonoBehaviour
     {
         yield return new WaitForSeconds(0.2f);
         
+        OPB_SoundsManager.Get().PlaySFX_NewBall();
+        
         txtNewBall.gameObject.SetActive(true);
         txtTimer.gameObject.SetActive(true);
         
         yield return new WaitForSeconds(1.3f);
+        
+        OPB_SoundsManager.Get().PlaySFX_MakeItcount();
         
         txtNewBall.gameObject.SetActive(false);
         txtMakeItCount.gameObject.SetActive(true);

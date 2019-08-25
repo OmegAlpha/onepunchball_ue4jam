@@ -53,6 +53,12 @@ public class OPB_MainMenu : MonoSingleton<OPB_MainMenu>
         panel_Main.SetActive(true);
         panel_Join.SetActive(false);
         
+        Invoke("DoMainTitleSound", 2f);
+    }
+
+    private void DoMainTitleSound()
+    {
+        OPB_SoundsManager.Get().PlaySFX_MainTitle();
     }
 
     private void OnSessionsReceived(List<UdpSession> sessionsList)

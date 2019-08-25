@@ -20,6 +20,6 @@ public class OPB_UI_PlayerRow : MonoBehaviour
         
         txtUserName.text = player.state.UserName;
 
-        txtPing.text = player.state.ServerPing.ToString("F0");
+        txtPing.text = player.state.SetsWon.ToString();
     }
 }

@@ -14,18 +14,7 @@
           "PropertyType": {
             "$type": "Bolt.Compiler.PropertyTypeTransform, bolt.compiler",
             "PositionSelection": 14,
-            "RotationSelection": 14,
             "PositionCompression": [
-              {
-                "MinValue": -128,
-                "MaxValue": 128,
-                "Accuracy": 0.1,
-                "Enabled": true,
-                "Pack": 10.0,
-                "Read": 0.1,
-                "Shift": 128.0,
-                "BitsRequired": 12
-              },
               {
                 "MinValue": -32,
                 "MaxValue": 32,
@@ -37,14 +26,22 @@
                 "BitsRequired": 10
               },
               {
-                "MinValue": -128,
-                "MaxValue": 128,
+                "MaxValue": 8,
                 "Accuracy": 0.1,
                 "Enabled": true,
                 "Pack": 10.0,
                 "Read": 0.1,
-                "Shift": 128.0,
-                "BitsRequired": 12
+                "BitsRequired": 7
+              },
+              {
+                "MinValue": -32,
+                "MaxValue": 32,
+                "Accuracy": 0.1,
+                "Enabled": true,
+                "Pack": 10.0,
+                "Read": 0.1,
+                "Shift": 32.0,
+                "BitsRequired": 10
               }
             ],
             "RotationCompression": [
@@ -83,7 +80,7 @@
           "AssetSettings": {
             "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "SmoothingAlgorithm": 2,
-            "ExtrapolationErrorTolerance": 0.25,
+            "ExtrapolationErrorTolerance": 0.1,
             "_ExtrapolationCorrectionFrames": 6,
             "ExtrapolationMaxFrames": 9,
             "SnapMagnitude": 10.0
@@ -98,18 +95,17 @@
           "PropertyType": {
             "$type": "Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
             "Compression": {
-              "MinValue": -360,
-              "MaxValue": 360,
-              "Accuracy": 5.0,
+              "MaxValue": 1,
+              "Accuracy": 0.05,
               "Enabled": true,
-              "Pack": 0.2,
-              "Read": 5.0,
-              "Shift": 360.0,
-              "BitsRequired": 8
+              "Pack": 20.0,
+              "Read": 0.05,
+              "BitsRequired": 5
             }
           },
           "AssetSettings": {
             "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "SmoothingAlgorithm": 1,
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
             "ExtrapolationMaxFrames": 9,
@@ -153,7 +149,7 @@
           }
         },
         {
-          "Name": "MatchesWon",
+          "Name": "SetsWon",
           "Enabled": true,
           "Expanded": true,
           "ReplicationMode": 1,
@@ -354,31 +350,34 @@
             "Selection": 14,
             "Compression": [
               {
-                "MinValue": -1024,
-                "MaxValue": 1024,
-                "Accuracy": 0.01,
-                "Pack": 100.0,
-                "Read": 0.01,
-                "Shift": 1024.0,
-                "BitsRequired": 18
+                "MinValue": -31,
+                "MaxValue": 31,
+                "Accuracy": 0.1,
+                "Enabled": true,
+                "Pack": 10.0,
+                "Read": 0.1,
+                "Shift": 31.0,
+                "BitsRequired": 10
               },
               {
-                "MinValue": -1024,
-                "MaxValue": 1024,
-                "Accuracy": 0.01,
-                "Pack": 100.0,
-                "Read": 0.01,
-                "Shift": 1024.0,
-                "BitsRequired": 18
+                "MinValue": -31,
+                "MaxValue": 31,
+                "Accuracy": 0.1,
+                "Enabled": true,
+                "Pack": 10.0,
+                "Read": 0.1,
+                "Shift": 31.0,
+                "BitsRequired": 10
               },
               {
-                "MinValue": -1024,
-                "MaxValue": 1024,
-                "Accuracy": 0.01,
-                "Pack": 100.0,
-                "Read": 0.01,
-                "Shift": 1024.0,
-                "BitsRequired": 18
+                "MinValue": -32,
+                "MaxValue": 31,
+                "Accuracy": 0.1,
+                "Enabled": true,
+                "Pack": 10.0,
+                "Read": 0.1,
+                "Shift": 32.0,
+                "BitsRequired": 10
               }
             ]
           },
@@ -436,90 +435,6 @@
           },
           "AssetSettings": {
             "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
-            "ExtrapolationErrorTolerance": 0.25,
-            "_ExtrapolationCorrectionFrames": 6,
-            "ExtrapolationMaxFrames": 9,
-            "SnapMagnitude": 10.0
-          }
-        },
-        {
-          "Name": "BallTransform",
-          "Enabled": true,
-          "Expanded": true,
-          "ReplicationMode": 1,
-          "Priority": 1,
-          "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeTransform, bolt.compiler",
-            "PositionSelection": 14,
-            "Space": 1,
-            "PositionCompression": [
-              {
-                "MinValue": -75,
-                "MaxValue": 75,
-                "Accuracy": 0.05,
-                "Enabled": true,
-                "Pack": 20.0,
-                "Read": 0.05,
-                "Shift": 75.0,
-                "BitsRequired": 12
-              },
-              {
-                "MinValue": -75,
-                "MaxValue": 75,
-                "Accuracy": 0.05,
-                "Enabled": true,
-                "Pack": 20.0,
-                "Read": 0.05,
-                "Shift": 75.0,
-                "BitsRequired": 12
-              },
-              {
-                "MinValue": -10,
-                "MaxValue": 30,
-                "Accuracy": 0.05,
-                "Enabled": true,
-                "Pack": 20.0,
-                "Read": 0.05,
-                "Shift": 10.0,
-                "BitsRequired": 10
-              }
-            ],
-            "RotationCompression": [
-              {
-                "MaxValue": 360,
-                "Accuracy": 0.01,
-                "Pack": 100.0,
-                "Read": 0.01,
-                "BitsRequired": 16
-              },
-              {
-                "MaxValue": 360,
-                "Accuracy": 0.01,
-                "Pack": 100.0,
-                "Read": 0.01,
-                "BitsRequired": 16
-              },
-              {
-                "MaxValue": 360,
-                "Accuracy": 0.01,
-                "Pack": 100.0,
-                "Read": 0.01,
-                "BitsRequired": 16
-              }
-            ],
-            "RotationCompressionQuaternion": {
-              "MinValue": -1,
-              "MaxValue": 1,
-              "Accuracy": 0.01,
-              "Pack": 100.0,
-              "Read": 0.01,
-              "Shift": 1.0,
-              "BitsRequired": 8
-            }
-          },
-          "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
-            "SmoothingAlgorithm": 2,
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
             "ExtrapolationMaxFrames": 9,
@@ -843,82 +758,6 @@
       ]
     },
     {
-      "$type": "Bolt.Compiler.StateDefinition, bolt.compiler",
-      "Properties": [],
-      "PacketMaxBits": 512,
-      "PacketMaxProperties": 16,
-      "InitialPositionCompression": {
-        "Compression": [
-          {
-            "MinValue": -1024,
-            "MaxValue": 1024,
-            "Accuracy": 0.01,
-            "Pack": 100.0,
-            "Read": 0.01,
-            "Shift": 1024.0,
-            "BitsRequired": 18
-          },
-          {
-            "MinValue": -1024,
-            "MaxValue": 1024,
-            "Accuracy": 0.01,
-            "Pack": 100.0,
-            "Read": 0.01,
-            "Shift": 1024.0,
-            "BitsRequired": 18
-          },
-          {
-            "MinValue": -1024,
-            "MaxValue": 1024,
-            "Accuracy": 0.01,
-            "Pack": 100.0,
-            "Read": 0.01,
-            "Shift": 1024.0,
-            "BitsRequired": 18
-          }
-        ]
-      },
-      "InitialRotationCompression": {
-        "EulerCompression": [
-          {
-            "MaxValue": 360,
-            "Accuracy": 1.0,
-            "Pack": 1.0,
-            "Read": 1.0,
-            "BitsRequired": 9
-          },
-          {
-            "MaxValue": 360,
-            "Accuracy": 1.0,
-            "Pack": 1.0,
-            "Read": 1.0,
-            "BitsRequired": 9
-          },
-          {
-            "MaxValue": 360,
-            "Accuracy": 1.0,
-            "Pack": 1.0,
-            "Read": 1.0,
-            "BitsRequired": 9
-          }
-        ],
-        "QuaternionCompression": {
-          "MinValue": -1,
-          "MaxValue": 1,
-          "Accuracy": 0.01,
-          "Pack": 100.0,
-          "Read": 0.01,
-          "Shift": 1.0,
-          "BitsRequired": 8
-        }
-      },
-      "Name": "OPB_PlayerScoreChanged",
-      "Guid": "38263c61-b71c-4537-affa-4c7e145778db",
-      "Groups": [
-        "samples"
-      ]
-    },
-    {
       "$type": "Bolt.Compiler.EventDefinition, bolt.compiler",
       "Properties": [
         {
@@ -1137,6 +976,30 @@
       },
       "Name": "OPB_PlayerCamera_State",
       "Guid": "4407ee32-268c-4e12-af00-0509051e4638",
+      "Groups": [
+        "samples"
+      ]
+    },
+    {
+      "$type": "Bolt.Compiler.EventDefinition, bolt.compiler",
+      "Properties": [
+        {
+          "Name": "Winner",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Bolt.Compiler.PropertyTypeNetworkId, bolt.compiler"
+          },
+          "AssetSettings": {
+            "$type": "Bolt.Compiler.PropertyEventSettings, bolt.compiler"
+          }
+        }
+      ],
+      "GlobalSenders": 1,
+      "Name": "OPB_SetWon",
+      "Guid": "b9b09b01-0ae5-4c42-921f-b872bb395e66",
       "Groups": [
         "samples"
       ]

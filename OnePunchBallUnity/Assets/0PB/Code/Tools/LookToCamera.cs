@@ -11,10 +11,9 @@ public class LookToCamera : MonoBehaviour
     void Update()
     {
         Camera lookAt = Camera.main;
+        transform.rotation = Quaternion.LookRotation(transform.position - lookAt.transform.position );
         
-        Vector3 direction = (lookAt.transform.position - transform.position).normalized; 
-        
-        transform.LookAt( transform.position - direction );
-        transform.eulerAngles = new Vector3(transform.eulerAngles.x, 0, transform.eulerAngles.z); 
+        if(!OPB_GameRules.Instance.IsSetFinished)
+            transform.eulerAngles = new Vector3(transform.eulerAngles.x, 0, transform.eulerAngles.z); 
     }
 }

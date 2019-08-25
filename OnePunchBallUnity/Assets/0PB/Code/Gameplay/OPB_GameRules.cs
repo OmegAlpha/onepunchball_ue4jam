@@ -17,9 +17,11 @@ public class OPB_GameRules : Bolt.EntityBehaviour<IOPB_GameRuleState>
 
     private int localTimer = 0;
 
-    private bool IsMatchRunning = false;
-    
-    
+    private bool isMatchRunning = false;
+    public bool IsMatchRunning => isMatchRunning;
+
+    private bool isSetFinished = false;
+    public bool IsSetFinished => isSetFinished;
 
     private float timerUpdateUserList = 0;
     
@@ -44,7 +46,7 @@ public class OPB_GameRules : Bolt.EntityBehaviour<IOPB_GameRuleState>
         if (entity.IsOwner)
         {
             state.RoundDuration = 10;
-            IsMatchRunning = true;
+            isMatchRunning = true;
         }
 
         OPB_Bolt_GlobalEventsListener.OnRoundStarted.AddListener(OnRoundStarted_Clients);
@@ -54,7 +56,7 @@ public class OPB_GameRules : Bolt.EntityBehaviour<IOPB_GameRuleState>
 
     public override void SimulateOwner()
     {
-        if (entity.IsOwner && BoltNetwork.IsServer && IsMatchRunning)
+        if (entity.IsOwner && BoltNetwork.IsServer && isMatchRunning)
         {
             timerSeconds += BoltNetwork.FrameDeltaTime;
 
@@ -75,8 +77,20 @@ public class OPB_GameRules : Bolt.EntityBehaviour<IOPB_GameRuleState>
 
     private IEnumerator FinishRound_Routine()
     {
-        IsMatchRunning = false;
+        isMatchRunning = false;
         
+        DestroyAllBalls();
+        
+        OPB_RoundFinished evt = OPB_RoundFinished.Create();
+        evt.Send();
+
+        yield return new WaitForSeconds(1.5f);
+        
+        StartRound();
+    }
+
+    private void DestroyAllBalls()
+    {
         List<EntityBehaviour> allBalls = OPB_GlobalAccessors.GetAllEntitiesOfType(typeof(OPB_KillerBall)) ;
 
         while (allBalls.Count > 0)
@@ -85,13 +99,6 @@ public class OPB_GameRules : Bolt.EntityBehaviour<IOPB_GameRuleState>
             allBalls.RemoveAt(0);
             BoltNetwork.Destroy(ballToDestroy.gameObject);
         }
-
-        OPB_RoundFinished evt = OPB_RoundFinished.Create();
-        evt.Send();
-
-        yield return new WaitForSeconds(1.5f);
-        
-        StartRound();
     }
 
     private void OnRoundStarted_Clients()
@@ -113,7 +120,8 @@ public class OPB_GameRules : Bolt.EntityBehaviour<IOPB_GameRuleState>
         OPB_RoundStarted evt = OPB_RoundStarted.Create();
         evt.Send();
 
-        IsMatchRunning = true;
+        isMatchRunning = true;
+        isSetFinished = false;
     }
 
     private void Update()
@@ -123,5 +131,48 @@ public class OPB_GameRules : Bolt.EntityBehaviour<IOPB_GameRuleState>
             localTimer = state.RoundTimer;
             OnTimerTick.Invoke(state.RoundTimer);
         }
+
+
+        if (!isSetFinished)
+        {
+            // Check Winners
+            List<OPB_PlayerController> allPlayers = FindObjectsOfType<OPB_PlayerController>().ToList();
+        
+            for(int i = 0; i < allPlayers.Count; i++)
+            {
+                OPB_PlayerController p = allPlayers[i];
+            
+                if (p.state.Score >= OPB_MatchHostSettings.PointsToWinSet)
+                {
+                   StartCoroutine(FinishSet_Coroutine(p)); 
+                   break;
+                }
+            }
+        }
     }
+
+
+    private IEnumerator FinishSet_Coroutine(OPB_PlayerController winner)
+    {
+        isSetFinished = true;
+        
+        DestroyAllBalls();
+        
+        OPB_SetWon evt = OPB_SetWon.Create();
+        evt.Winner = winner.entity.NetworkId;
+                
+        evt.Send();
+        
+        yield return new WaitForSeconds(1.5f);
+        
+        isSetFinished = false;
+        
+        yield return new WaitForSeconds(1f);
+        
+        StartRound();
+    }
+    
+    
+
+
 }

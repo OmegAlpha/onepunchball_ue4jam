@@ -20,6 +20,10 @@ public class OPB_KillerBall : Bolt.EntityEventListener<IOPB_KillerBallStated>
 
     public Material matMine;
     public Material matOthers;
+
+    private float linearSpeed = 30f;
+    
+    private Vector3 positionVectors = new Vector3();
     
     public void Initialize(OPB_PlayerController ownerP)
     {
@@ -68,7 +72,11 @@ public class OPB_KillerBall : Bolt.EntityEventListener<IOPB_KillerBallStated>
         {
             if (!state.InHand)
             {
-                state.BallPosition = transform.position + MovementDirection * 25f * Time.deltaTime;
+                positionVectors.x = transform.position.x;
+                positionVectors.z = transform.position.z;
+                positionVectors.y = 2.75f;
+                
+                state.BallPosition = positionVectors + MovementDirection * linearSpeed * Time.deltaTime;
             }
         }
     }
@@ -135,7 +143,7 @@ public class OPB_KillerBall : Bolt.EntityEventListener<IOPB_KillerBallStated>
             entity.TakeControl();
             state.InHand = false;
             MovementDirection = ShootDirection;
-            state.BallPosition = new Vector3(transform.position.x, 2.6f, transform.position.z);
+            state.BallPosition = new Vector3(OwnerPlayer.transform.position.x, 2.75f, OwnerPlayer.transform.position.z);
         }
     }
 

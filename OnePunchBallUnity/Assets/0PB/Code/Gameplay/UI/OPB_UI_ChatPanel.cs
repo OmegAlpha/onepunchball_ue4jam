@@ -86,8 +86,13 @@ public class OPB_UI_ChatPanel : MonoSingleton<OPB_UI_ChatPanel>, IChatClientList
 
     private void OnTextSubmitted(string arg0)
     {
-        chatClient.PublishMessage("gamechannel", txtInput_Chat.text);
+        string message = txtInput_Chat.text.Trim();
 
+        if (message.Length > 0)
+        {
+            chatClient.PublishMessage("gamechannel", txtInput_Chat.text);
+        }
+        
         DeactivateDoChat();
     }
 
