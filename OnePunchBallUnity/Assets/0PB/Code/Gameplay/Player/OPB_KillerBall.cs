@@ -6,7 +6,12 @@ using UnityEngine;
 
 public class OPB_KillerBall : Bolt.EntityEventListener<IOPB_KillerBallStated>
 {
-    public NetworkId idOwner = new NetworkId();
+
+    [SerializeField]
+    private GameObject serverLogicGameobject;
+    
+    [SerializeField]
+    private GameObject meshGameObject;
 
     public OPB_PlayerController OwnerPlayer = null;
 
@@ -27,6 +32,7 @@ public class OPB_KillerBall : Bolt.EntityEventListener<IOPB_KillerBallStated>
     
     public void Initialize(OPB_PlayerController ownerP)
     {
+        state.IsAlive = true;
         state.OwnerPlayer  = ownerP.entity.NetworkId;
         OwnerPlayer = ownerP;
         OwnerPlayer.AssignBallToHand(this);
@@ -42,11 +48,22 @@ public class OPB_KillerBall : Bolt.EntityEventListener<IOPB_KillerBallStated>
 
     public override void Attached()
     {
+        serverLogicGameobject.SetActive(false);
+        meshGameObject.SetActive(true);
+        
         state.AddCallback("OwnerPlayer", OnOwnerAssigned);
         state.AddCallback("InHand", OnInHandChanged);
+        state.AddCallback("IsAlive", OnIsAliveChanged);
+        
+        state.SetTransforms(state.BallTransform, transform);
 
         if (!entity.IsOwner)
             gameObject.name = "Ball_Lejana";
+    }
+
+    private void OnIsAliveChanged()
+    {
+        meshGameObject.SetActive(state.IsAlive);
     }
 
     private void OnInHandChanged()
@@ -56,6 +73,7 @@ public class OPB_KillerBall : Bolt.EntityEventListener<IOPB_KillerBallStated>
         if(!state.InHand)
         {
             transform.SetParent(null);
+            
         }
     }
 
@@ -68,49 +86,35 @@ public class OPB_KillerBall : Bolt.EntityEventListener<IOPB_KillerBallStated>
 
     public override void SimulateOwner()
     {
-        if (BoltNetwork.IsServer)
+        if (!state.InHand)
         {
-            if (!state.InHand)
-            {
-                positionVectors.x = transform.position.x;
-                positionVectors.z = transform.position.z;
-                positionVectors.y = 2.75f;
+            positionVectors.x = transform.position.x;
+            positionVectors.z = transform.position.z;
+            positionVectors.y = 2.75f;
                 
-                state.BallPosition = positionVectors + MovementDirection * linearSpeed * Time.deltaTime;
-            }
+            transform.position = positionVectors + MovementDirection * linearSpeed * Time.deltaTime;
         }
     }
-
-    public override void SimulateController()
-    {
-
-    }
-
     
     // ONLY SERVER
     public void HitToPlayer(OPB_PlayerController player)
     {
-        if (!entity.IsAttached || !player.entity.IsAttached)
-            return;
-        
-        if(state.InHand || ! player.state.IsAlive)
+        if(state.InHand || ! player.state.IsAlive || !state.IsAlive)
             return;
         
         if (player == OwnerPlayer)
         {
-            if (QtyRebounds > 0)
-            {
-                OnPlayerBallHit_Event evt = OnPlayerBallHit_Event.Create(player.entity, EntityTargets.Everyone);
-                evt.SelfBall = true;
-                evt.Send();
+            // don't hit on yourself if Rebounds were 0 (for some self-safety)
+            if(QtyRebounds <= 0)
+                return;
+            
+            OnPlayerBallHit_Event evt = OnPlayerBallHit_Event.Create(player.entity, EntityTargets.Everyone);
+            evt.SelfBall = true;
+            evt.Send();
 
-                OPB_OnPlayerScoreChanged evt2 = OPB_OnPlayerScoreChanged.Create(OwnerPlayer.entity, EntityTargets.OnlyOwner);
-                evt2.IsIncrement = false;
-                evt2.Send();
-                
-                
-                BoltNetwork.Destroy(gameObject);
-            }
+            OPB_OnPlayerScoreChanged evt2 = OPB_OnPlayerScoreChanged.Create(OwnerPlayer.entity, EntityTargets.OnlyOwner);
+            evt2.IsIncrement = false;
+            evt2.Send();
         }
         else
         {
@@ -121,29 +125,29 @@ public class OPB_KillerBall : Bolt.EntityEventListener<IOPB_KillerBallStated>
             OPB_OnPlayerScoreChanged evt2 = OPB_OnPlayerScoreChanged.Create(OwnerPlayer.entity, EntityTargets.OnlyOwner);
             evt2.IsIncrement = true;
             evt2.Send();
-            
-            BoltNetwork.Destroy(gameObject);
         }
         
-        
+        state.IsAlive = false;
+        serverLogicGameobject.SetActive(false);
+    }
+
+    public void DestroyBall()
+    {
+        BoltNetwork.Destroy(gameObject);
     }
 
     private void Update()
     {
-        if (!state.InHand)
-        {
-            transform.position = state.BallPosition;
-        }
     }
 
     public void Shoot(Vector3 ShootDirection)
     {
         if (BoltNetwork.IsServer)
         {
-            entity.TakeControl();
             state.InHand = false;
             MovementDirection = ShootDirection;
-            state.BallPosition = new Vector3(OwnerPlayer.transform.position.x, 2.75f, OwnerPlayer.transform.position.z);
+            transform.position = new Vector3(OwnerPlayer.transform.position.x, 2.75f, OwnerPlayer.transform.position.z);
+            serverLogicGameobject.SetActive(true);
         }
     }
 

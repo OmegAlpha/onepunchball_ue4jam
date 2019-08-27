@@ -9,7 +9,6 @@
           "Name": "PlayerTransform",
           "Enabled": true,
           "Expanded": true,
-          "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
             "$type": "Bolt.Compiler.PropertyTypeTransform, bolt.compiler",
@@ -341,50 +340,80 @@
       "$type": "Bolt.Compiler.StateDefinition, bolt.compiler",
       "Properties": [
         {
-          "Name": "BallPosition",
+          "Name": "BallTransform",
           "Enabled": true,
           "Expanded": true,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeVector, bolt.compiler",
-            "Selection": 14,
-            "Compression": [
+            "$type": "Bolt.Compiler.PropertyTypeTransform, bolt.compiler",
+            "PositionSelection": 14,
+            "PositionCompression": [
               {
-                "MinValue": -31,
-                "MaxValue": 31,
-                "Accuracy": 0.1,
+                "MinValue": -32,
+                "MaxValue": 32,
+                "Accuracy": 0.05,
                 "Enabled": true,
-                "Pack": 10.0,
-                "Read": 0.1,
-                "Shift": 31.0,
-                "BitsRequired": 10
+                "Pack": 20.0,
+                "Read": 0.05,
+                "Shift": 32.0,
+                "BitsRequired": 11
               },
               {
-                "MinValue": -31,
-                "MaxValue": 31,
+                "MaxValue": 5,
                 "Accuracy": 0.1,
                 "Enabled": true,
                 "Pack": 10.0,
                 "Read": 0.1,
-                "Shift": 31.0,
-                "BitsRequired": 10
+                "BitsRequired": 6
               },
               {
                 "MinValue": -32,
-                "MaxValue": 31,
-                "Accuracy": 0.1,
+                "MaxValue": 32,
+                "Accuracy": 0.05,
                 "Enabled": true,
-                "Pack": 10.0,
-                "Read": 0.1,
+                "Pack": 20.0,
+                "Read": 0.05,
                 "Shift": 32.0,
-                "BitsRequired": 10
+                "BitsRequired": 11
               }
-            ]
+            ],
+            "RotationCompression": [
+              {
+                "MaxValue": 360,
+                "Accuracy": 0.01,
+                "Pack": 100.0,
+                "Read": 0.01,
+                "BitsRequired": 16
+              },
+              {
+                "MaxValue": 360,
+                "Accuracy": 0.01,
+                "Pack": 100.0,
+                "Read": 0.01,
+                "BitsRequired": 16
+              },
+              {
+                "MaxValue": 360,
+                "Accuracy": 0.01,
+                "Pack": 100.0,
+                "Read": 0.01,
+                "BitsRequired": 16
+              }
+            ],
+            "RotationCompressionQuaternion": {
+              "MinValue": -1,
+              "MaxValue": 1,
+              "Accuracy": 0.01,
+              "Pack": 100.0,
+              "Read": 0.01,
+              "Shift": 1.0,
+              "BitsRequired": 8
+            }
           },
           "AssetSettings": {
             "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
-            "SmoothingAlgorithm": 1,
-            "ExtrapolationErrorTolerance": 0.25,
+            "SmoothingAlgorithm": 2,
+            "ExtrapolationErrorTolerance": 0.1,
             "_ExtrapolationCorrectionFrames": 6,
             "ExtrapolationMaxFrames": 9,
             "SnapMagnitude": 10.0
@@ -432,6 +461,23 @@
           "Priority": 1,
           "PropertyType": {
             "$type": "Bolt.Compiler.PropertyTypeTrigger, bolt.compiler"
+          },
+          "AssetSettings": {
+            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "ExtrapolationErrorTolerance": 0.25,
+            "_ExtrapolationCorrectionFrames": 6,
+            "ExtrapolationMaxFrames": 9,
+            "SnapMagnitude": 10.0
+          }
+        },
+        {
+          "Name": "IsAlive",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Bolt.Compiler.PropertyTypeBool, bolt.compiler"
           },
           "AssetSettings": {
             "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",

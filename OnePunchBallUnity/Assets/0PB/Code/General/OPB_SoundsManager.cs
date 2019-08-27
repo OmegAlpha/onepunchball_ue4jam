@@ -83,6 +83,7 @@ public class OPB_SoundsManager : MonoSingleton<OPB_SoundsManager>
 
     public void PlayRandomMusic()
     {
+        return;
         if (coroutineBGMusic != null)
         {
             StopCoroutine(coroutineBGMusic);

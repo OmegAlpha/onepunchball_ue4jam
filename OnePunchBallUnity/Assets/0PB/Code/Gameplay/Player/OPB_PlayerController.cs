@@ -203,8 +203,6 @@ public class OPB_PlayerController : Bolt.EntityEventListener<IOPB_PlayerState>
 
                     Vector3 targetPos = hit.point;
                     targetPos.y = 2.6f;
-
-                    Debug.Log("[Simulater Owner] RayCast Worked and Hit Detected. Send Event");
                 
                     evt.ShootDirection = targetPos;
                     evt.Send();
